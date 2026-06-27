@@ -51,58 +51,111 @@ export const systems = [
 
 export const projects = [
   {
-    slug: "agent-orchestrator",
+    slug: "hermes",
     index: "PRJ-01",
-    title: "Distributed Agent Orchestrator",
-    year: "2025",
-    summary:
-      "A planner-executor orchestration layer routing tasks across 12 specialised agents with shared episodic memory.",
+    title: "Hermes",
+    subtitle: "Real-Time Voice Intelligence Platform",
+    repo: "Hermes_AI",
+    year: "2026",
+    abstract:
+      "A low-latency orchestration platform that transforms live speech into reliable AI conversations through streaming speech recognition, agentic reasoning, retrieval, and neural speech synthesis.",
     problem:
-      "Single-agent loops collapsed under multi-domain tasks — finance, search and code synthesis kept blending context.",
-    architecture:
-      "Planner agent decomposes intents, an orchestrator dispatches to domain agents, results flow through a verification agent before a synthesiser composes the final response.",
+      "Building conversational voice AI requires far more than speech recognition. Audio streaming, reasoning, retrieval, tool execution and speech synthesis must all operate together under strict latency constraints while maintaining conversational context.",
+    pipeline: [
+      "Microphone",
+      "Streaming Speech Recognition",
+      "Conversation Memory",
+      "Planner Agent",
+      "Tool Execution + RAG",
+      "LLM Reasoning",
+      "Streaming Speech Synthesis",
+      "Speaker",
+    ],
     tradeoffs:
-      "Latency increased ~1.4× over a single agent, but task success on cross-domain benchmarks improved from 41% to 78%.",
-    results:
-      "78% task success · 3.2× tool-use accuracy · 60% lower hallucination rate on factual queries.",
+      "Prioritized modularity and extensibility over a tightly coupled pipeline. Independent services introduce orchestration overhead but enable each subsystem to evolve without affecting the entire platform.",
+    capabilities: [
+      "Streaming Speech Recognition",
+      "Agent Orchestration",
+      "Conversation Memory",
+      "Retrieval-Augmented Generation",
+      "Streaming Text-to-Speech",
+      "Event-Driven Processing",
+    ],
+    stack: ["Python", "FastAPI", "LangGraph", "Redis", "Qdrant", "OpenAI", "Whisper", "Docker"],
     lessons:
-      "Explicit handoff contracts beat shared scratchpads. Memory belongs to the orchestrator, not to individual agents.",
+      "Real-time conversational AI is fundamentally an orchestration challenge. Keeping speech, reasoning, retrieval and synthesis loosely coupled produces systems that are easier to evolve, observe and scale.",
   },
   {
-    slug: "contextual-rag",
+    slug: "athena",
     index: "PRJ-02",
-    title: "Contextual RAG for Long Documents",
-    year: "2025",
-    summary:
-      "Hybrid retrieval pipeline over 200k+ regulatory documents using context-prefixed chunks and a re-ranker.",
+    title: "Athena",
+    subtitle: "Enterprise Retrieval Intelligence Platform",
+    repo: "athena-ai",
+    year: "2026",
+    abstract:
+      "A production-oriented retrieval platform designed for trustworthy enterprise knowledge access through optimized search, reranking, vector search and permission-aware retrieval.",
     problem:
-      "Top-k semantic search returned topically-similar but contextually-wrong chunks for legal queries.",
-    architecture:
-      "Documents are chunked, then each chunk is rewritten with a short LLM-generated context prefix. A hybrid BM25 + dense retriever feeds a cross-encoder re-ranker.",
+      "Enterprise search requires more than semantic similarity. Knowledge systems must retrieve accurate information while respecting permissions, reducing hallucinations and scaling across continuously growing document collections.",
+    pipeline: [
+      "Documents",
+      "Chunking Pipeline",
+      "Embedding Generation",
+      "Vector Database",
+      "Hybrid Retrieval",
+      "Cross-Encoder Reranking",
+      "Access Control",
+      "LLM Response",
+    ],
     tradeoffs:
-      "Ingestion cost rose 3× from context generation. Retrieval precision@10 improved from 0.52 to 0.86.",
-    results:
-      "+34 pts precision · 2.1× faster review time · 0 hallucinated citations across the eval set.",
-    lessons: "Context is cheaper to add at ingest than to reconstruct at query time.",
+      "Hybrid retrieval introduces additional infrastructure complexity but significantly improves retrieval quality compared with embedding-only search.",
+    capabilities: [
+      "Hybrid Retrieval",
+      "Query Optimization",
+      "Cross-Encoder Reranking",
+      "Vector Search",
+      "Access-Aware Retrieval",
+      "Scalable Knowledge Architecture",
+    ],
+    stack: ["Python", "FastAPI", "Qdrant", "PostgreSQL", "Docker", "OpenAI", "Redis"],
+    lessons:
+      "Retrieval quality depends far more on disciplined retrieval pipelines than increasingly larger language models. Well-curated context consistently produces better reasoning.",
   },
   {
-    slug: "eval-harness",
+    slug: "aegis",
     index: "PRJ-03",
-    title: "Continuous AI Evaluation Harness",
-    year: "2024",
-    summary:
-      "End-to-end evaluation pipeline running prompt regressions, LLM-as-judge scoring and trace-level diffs on every deploy.",
+    title: "Aegis",
+    subtitle: "Trust & Decision Intelligence System",
+    repo: "AegisAI",
+    year: "2026",
+    abstract:
+      "An enterprise AI governance platform focused on explainable reasoning, calibrated confidence estimation and policy-aware decision validation.",
     problem:
-      "Silent regressions were shipping with every prompt tweak. Manual spot-checks missed entire failure modes.",
-    architecture:
-      "Golden dataset → multi-judge evaluation → trace diffing → automated PR comments with score deltas and failing traces.",
+      "High-impact AI systems require transparent reasoning before decisions can be trusted. Predictions alone are insufficient without explanation, confidence estimation and governance.",
+    pipeline: [
+      "Input",
+      "Evidence Collection",
+      "Reasoning Engine",
+      "Confidence Calibration",
+      "Policy Validation",
+      "Decision Report",
+      "Human Review",
+    ],
     tradeoffs:
-      "Judges introduced variance; we addressed this with ensembled prompts and pairwise scoring instead of absolute ratings.",
-    results: "Caught 14 regressions in the first quarter · cut prompt-change review time by 70%.",
+      "Governance layers increase inference latency but substantially improve transparency, auditability and human trust.",
+    capabilities: [
+      "Explainable Reasoning",
+      "Confidence Calibration",
+      "Decision Governance",
+      "Risk Assessment",
+      "Human-in-the-Loop Review",
+      "Audit Logging",
+    ],
+    stack: ["Python", "FastAPI", "PostgreSQL", "Redis", "Docker", "OpenAI", "LangGraph"],
     lessons:
-      "Evaluation is product engineering, not QA. Treat the eval harness as a first-class system.",
+      "Enterprise AI succeeds when humans understand why a recommendation was made rather than simply receiving a prediction. Trust is designed through architecture, not generated by models.",
   },
 ];
+
 
 export const articles = [
   {
