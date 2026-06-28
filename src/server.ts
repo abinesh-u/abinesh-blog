@@ -61,13 +61,24 @@ function addSecurityHeaders(response: Response): Response {
 
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
+    const url = new URL(request.url);
+    console.log(`[server.ts] Incoming request: ${request.method} ${url.pathname}${url.search}`);
+
+    // Vercel or Nitro routing layer may rewrite root requests to /index.html.
+    // Normalize this to / so TanStack Router matches the index route.
+    if (url.pathname === "/index.html" || url.pathname === "/index") {
+      url.pathname = "/";
+      request = new Request(url.toString(), request);
+      console.log(`[server.ts] Normalized path to: ${url.pathname}`);
+    }
+
     try {
       const handler = await getServerEntry();
       const response = await handler.fetch(request, env, ctx);
       const normalized = await normalizeCatastrophicSsrResponse(response);
       return addSecurityHeaders(normalized);
     } catch (error) {
-      console.error(error);
+      console.error("[server.ts] Critical SSR Error:", error);
       return addSecurityHeaders(
         new Response(renderErrorPage(), {
           status: 500,
