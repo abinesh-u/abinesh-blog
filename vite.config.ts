@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from "vite";
 import tailwindcss from "@tailwindcss/vite";
 import { tanstackStart } from "@tanstack/react-start/plugin/vite";
+import { nitro } from "nitro/vite";
 
 // SSR entry: src/server.ts (the project's SSR error wrapper).
 const tanstackStartOptions = {
@@ -57,6 +58,6 @@ export default defineConfig(({ mode }) => {
       ],
     },
     server: { host: "::", port: 8080 },
-    plugins: [tailwindcss(), tanstackStart(tanstackStartOptions)],
+    plugins: [tailwindcss(), tanstackStart(tanstackStartOptions), nitro()],
   };
 });
