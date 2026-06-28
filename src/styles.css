@@ -34,6 +34,8 @@
   --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --transition-timing-function-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-timing-function-blueprint: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 :root {
@@ -296,3 +298,170 @@
 @utility animate-arrow-flow {
   animation: arrow-flow 2.5s infinite linear;
 }
+
+/* ── MOTION SYSTEM UPGRADE FOUNDATION ── */
+
+/* Easing curves */
+@utility ease-expo {
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+@utility ease-blueprint {
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Delay classes scale */
+@utility delay-50 {
+  transition-delay: 50ms;
+  animation-delay: 50ms;
+}
+@utility delay-100 {
+  transition-delay: 100ms;
+  animation-delay: 100ms;
+}
+@utility delay-150 {
+  transition-delay: 150ms;
+  animation-delay: 150ms;
+}
+@utility delay-200 {
+  transition-delay: 200ms;
+  animation-delay: 200ms;
+}
+@utility delay-250 {
+  transition-delay: 250ms;
+  animation-delay: 250ms;
+}
+@utility delay-300 {
+  transition-delay: 300ms;
+  animation-delay: 300ms;
+}
+@utility delay-400 {
+  transition-delay: 400ms;
+  animation-delay: 400ms;
+}
+@utility delay-450 {
+  transition-delay: 450ms;
+  animation-delay: 450ms;
+}
+@utility delay-600 {
+  transition-delay: 600ms;
+  animation-delay: 600ms;
+}
+@utility delay-800 {
+  transition-delay: 800ms;
+  animation-delay: 800ms;
+}
+@utility delay-950 {
+  transition-delay: 950ms;
+  animation-delay: 950ms;
+}
+@utility delay-1100 {
+  transition-delay: 1100ms;
+  animation-delay: 1100ms;
+}
+@utility delay-1200 {
+  transition-delay: 1200ms;
+  animation-delay: 1200ms;
+}
+
+/* Scroll reveal system classes */
+.reveal-trigger {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-trigger-scale {
+  opacity: 0;
+  transform: scale(0.96) translateY(8px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-trigger-left {
+  opacity: 0;
+  transform: translateX(-16px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-trigger-right {
+  opacity: 0;
+  transform: translateX(16px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-active {
+  opacity: 1 !important;
+  transform: translate(0) scale(1) !important;
+}
+
+/* Blinking terminal cursor */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+@utility animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* Concentric live status ripple */
+@keyframes ripple-outer {
+  0% { transform: scale(1); opacity: 0.35; }
+  100% { transform: scale(3.5); opacity: 0; }
+}
+@keyframes ripple-inner {
+  0% { transform: scale(1); opacity: 0.5; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+.status-indicator {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.status-indicator::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background-color: inherit;
+  animation: ripple-inner 2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+.status-indicator::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 9999px;
+  background-color: inherit;
+  animation: ripple-outer 2.5s cubic-bezier(0.16, 1, 0.3, 1) 0.5s infinite;
+}
+
+/* Coordinate drift ambient grid background */
+@keyframes bg-drift {
+  0%, 100% { background-position: 0px 0px; }
+  50% { background-position: 10px 10px; }
+}
+.ambient-drift {
+  animation: bg-drift 30s linear infinite;
+}
+
+/* Accessibility: prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-delay: 0s !important;
+    animation-duration: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0s !important;
+    transition-delay: 0s !important;
+  }
+  .reveal-trigger,
+  .reveal-trigger-scale,
+  .reveal-trigger-left,
+  .reveal-trigger-right {
+    transform: none !important;
+    opacity: 1 !important;
+    transition: none !important;
+  }
+  .status-indicator::before,
+  .status-indicator::after {
+    animation: none !important;
+    display: none !important;
+  }
+}
+

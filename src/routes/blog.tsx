@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteShell, PageHeader } from "@/components/site-shell";
 import { articles } from "@/lib/content";
+import { siteMetadata } from "@/lib/metadata";
 
 export const Route = createFileRoute("/blog")({
   head: () => ({
@@ -13,9 +14,37 @@ export const Route = createFileRoute("/blog")({
       },
       { property: "og:title", content: "Blog — Abinesh U" },
       { property: "og:description", content: "Long-form technical writing on AI systems." },
-      { property: "og:url", content: "/blog" },
+      { property: "og:url", content: `${siteMetadata.url}/blog` },
+      { property: "og:image", content: siteMetadata.imageUrl },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Blog — Architecture Notes by Abinesh U" },
+      { name: "twitter:description", content: "Long-form technical writing on AI systems." },
+      { name: "twitter:image", content: siteMetadata.imageUrl },
     ],
-    links: [{ rel: "canonical", href: "/blog" }],
+    links: [{ rel: "canonical", href: `${siteMetadata.url}/blog` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Blog",
+          "@id": `${siteMetadata.url}/blog/#webpage`,
+          url: `${siteMetadata.url}/blog`,
+          name: `Blog — ${siteMetadata.name}`,
+          description: "Long-form essays and architecture breakdowns on agentic AI and systems engineering.",
+          isPartOf: { "@id": `${siteMetadata.url}/#website` },
+          publisher: { "@id": `${siteMetadata.url}/#person` },
+          blogPost: articles.map((a) => ({
+            "@type": "BlogPosting",
+            headline: a.title,
+            description: a.excerpt,
+            url: `${siteMetadata.url}/blog#${a.slug}`,
+            datePublished: new Date(a.date).toISOString(),
+            author: { "@id": `${siteMetadata.url}/#person` },
+          })),
+        }),
+      },
+    ],
   }),
   component: Blog,
 });
@@ -30,10 +59,11 @@ function Blog() {
       />
       <section className="mx-auto max-w-7xl px-6 lg:px-10 pt-16">
         <div className="border-t hairline">
-          {articles.map((a) => (
+          {articles.map((a, i) => (
             <article
               key={a.slug}
-              className="group grid grid-cols-12 gap-6 py-10 border-b hairline hover:bg-secondary px-2 -mx-2 transition-colors"
+              className="group grid grid-cols-12 gap-6 py-10 border-b hairline hover:bg-secondary/45 px-2 -mx-2 transition-all duration-300 ease-expo reveal-trigger cursor-pointer"
+              style={{ transitionDelay: `${i * 100}ms` }}
             >
               <div className="col-span-12 md:col-span-2 space-y-2">
                 <div className="mono-caps text-muted-foreground">{a.index}</div>
@@ -47,7 +77,10 @@ function Blog() {
                 <p className="mt-3 text-base text-muted-foreground leading-relaxed max-w-2xl">
                   {a.excerpt}
                 </p>
-                <div className="mt-4 mono-caps">Read essay →</div>
+                <div className="mt-4 mono-caps flex items-center gap-1">
+                  <span>Read essay</span>
+                  <span className="inline-block transition-transform duration-300 ease-expo group-hover:translate-x-1">→</span>
+                </div>
               </div>
               <div className="col-span-12 md:col-span-2 md:text-right mono-caps text-muted-foreground">
                 {a.readTime}

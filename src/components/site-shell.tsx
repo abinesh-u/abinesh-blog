@@ -1,6 +1,7 @@
-import { Link } from "@tanstack/react-router";
-import type { ReactNode } from "react";
-import { socialLinksList } from "../lib/metadata";
+import { Link, useLocation } from "@tanstack/react-router";
+import { useEffect, type ReactNode } from "react";
+import { socialLinksList, siteMetadata } from "../lib/metadata";
+import { systems, projects } from "../lib/content";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -12,6 +13,38 @@ const nav = [
 ] as const;
 
 export function SiteShell({ children }: { children: ReactNode }) {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    // Scroll reveal observer
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("reveal-active");
+            // Optionally stop observing once triggered to run animation only once
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: "0px 0px -10px 0px", // Trigger when elements are just inside the viewport
+        threshold: 0.05,
+      }
+    );
+
+    // Dynamic queries for any trigger elements
+    const elements = document.querySelectorAll(
+      ".reveal-trigger, .reveal-trigger-scale, .reveal-trigger-left, .reveal-trigger-right"
+    );
+    elements.forEach((el) => observer.observe(el));
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [pathname]); // Re-run observer on page/navigation changes
+
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
       <Header />
@@ -42,25 +75,29 @@ function Header() {
             <Link
               key={n.to}
               to={n.to}
-              className="group flex items-baseline gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors px-1 py-1.5 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring rounded-sm"
+              className="group relative flex items-baseline gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors px-1 py-2 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring rounded-sm"
               activeProps={{
                 className:
-                  "group flex items-baseline gap-1.5 text-sm text-foreground px-1 py-1.5 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring rounded-sm",
+                  "group relative flex items-baseline gap-1.5 text-sm text-foreground px-1 py-2 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring rounded-sm",
               }}
               activeOptions={{ exact: n.to === "/" }}
             >
-              <span className="font-mono text-[10px] tabular-nums text-muted-foreground/70">
+              <span className="font-mono text-[10px] tabular-nums text-muted-foreground/70 group-hover:text-muted-foreground/45 transition-colors duration-300">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <span>{n.label}</span>
+              <span className="relative pb-0.5">
+                {n.label}
+                <span className="absolute bottom-0 left-0 w-full h-[1px] bg-foreground scale-x-0 group-hover:scale-x-100 transition-transform origin-center duration-300 ease-expo" />
+              </span>
             </Link>
           ))}
         </nav>
         <Link
           to="/contact"
-          className="hidden md:inline-flex items-center text-xs font-mono uppercase tracking-widest border border-foreground px-3 py-2 hover:bg-foreground hover:text-background transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          className="group hidden md:inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-widest border border-foreground px-4 py-2 hover:bg-foreground hover:text-background transition-all duration-300 ease-expo focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
         >
-          Get in touch
+          <span>Get in touch</span>
+          <span className="inline-block transition-transform duration-300 ease-expo group-hover:translate-x-1">→</span>
         </Link>
       </div>
     </header>
@@ -78,71 +115,113 @@ function Footer() {
   ];
 
   return (
-    <footer className="border-t hairline mt-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 pt-24 pb-20">
-        {/* Brand Lockup */}
-        <div className="flex items-center gap-3">
-          <img
-            src="/assets/common/logo.svg"
-            alt="Abinesh U Logo"
-            className="h-7 w-auto object-contain dark:invert"
-          />
-          <img
-            src="/assets/common/wordmark.svg"
-            alt="Abinesh U"
-            className="h-4 w-auto object-contain dark:invert"
-          />
-        </div>
-
-        {/* Tagline */}
-        <p className="mt-6 text-sm text-muted-foreground max-w-md leading-relaxed">
-          Designing intelligent systems, one architecture at a time.
-        </p>
-
-        {/* Navigation Links */}
-        <nav className="mt-12 flex flex-wrap gap-x-8 gap-y-3">
-          {footerNav.map((n) => (
-            <Link
-              key={n.to}
-              to={n.to}
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              {n.label}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Social Links */}
-        <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
-          {socialLinksList.map((l) => (
-            <a
-              key={l.href}
-              href={l.href}
-              target="_blank"
-              rel="noreferrer"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
-            >
-              {l.label}
-              <span className="text-xs">↗</span>
-            </a>
-          ))}
-        </div>
-      </div>
-
-      {/* Copyright + Version */}
-      <div className="border-t hairline">
-        <div className="mx-auto max-w-7xl px-6 lg:px-10 py-6 flex flex-col md:flex-row gap-3 items-start md:items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img
-              src="/assets/common/logo.svg"
-              alt="Abinesh U Logo"
-              className="w-4 h-4 object-contain dark:invert opacity-50"
-            />
-            <p className="mono-caps text-muted-foreground">
-              © {new Date().getFullYear()} Abinesh U — All systems documented.
+    <footer className="mt-40 bg-background relative z-10">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10 pt-16 pb-16">
+        {/* Grid of columns */}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 lg:gap-12">
+          {/* Brand & Status Column */}
+          <div className="col-span-2 md:col-span-3 lg:col-span-1 space-y-6 reveal-trigger" style={{ transitionDelay: "50ms" }}>
+            <div className="flex items-center gap-3">
+              <img
+                src="/assets/common/logo.svg"
+                alt="Abinesh U Logo"
+                className="h-6 w-auto object-contain dark:invert"
+              />
+              <img
+                src="/assets/common/wordmark.svg"
+                alt="Abinesh U"
+                className="h-3.5 w-auto object-contain dark:invert"
+              />
+            </div>
+            <p className="text-xs text-muted-foreground leading-relaxed max-w-xs">
+              Designing intelligent systems, agentic architectures, and production-grade runtimes.
             </p>
+            <div className="space-y-4">
+              <div className="flex items-center gap-2 text-[10px] font-mono text-muted-foreground bg-secondary/35 border border-hairline px-2.5 py-1.5 rounded w-fit">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                </span>
+                <span>All systems operational</span>
+              </div>
+              <p className="font-mono text-[9px] text-muted-foreground leading-relaxed">
+                © {new Date().getFullYear()} Abinesh U.<br />All architectures fully documented.
+              </p>
+            </div>
           </div>
-          <p className="mono-caps text-muted-foreground">v1.0 · Built in the open</p>
+
+          {/* Directory Column */}
+          <div className="reveal-trigger" style={{ transitionDelay: "100ms" }}>
+            <div className="text-[11px] font-mono uppercase tracking-widest text-foreground/80 mb-4">Navigation</div>
+            <ul className="space-y-2">
+              {footerNav.map((n) => (
+                <li key={n.to}>
+                  <Link
+                    to={n.to}
+                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-200 block py-1"
+                  >
+                    {n.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Systems Column */}
+          <div className="reveal-trigger" style={{ transitionDelay: "150ms" }}>
+            <div className="text-[11px] font-mono uppercase tracking-widest text-foreground/80 mb-4">Systems</div>
+            <ul className="space-y-2">
+              {systems.map((s) => (
+                <li key={s.slug}>
+                  <Link
+                    to="/systems"
+                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-200 block py-1 truncate max-w-[180px]"
+                    title={s.title}
+                  >
+                    {s.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Case Studies Column */}
+          <div className="reveal-trigger" style={{ transitionDelay: "200ms" }}>
+            <div className="text-[11px] font-mono uppercase tracking-widest text-foreground/80 mb-4">Case Studies</div>
+            <ul className="space-y-2">
+              {projects.map((p) => (
+                <li key={p.slug}>
+                  <Link
+                    to="/projects"
+                    hash={p.slug}
+                    className="text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-200 block py-1"
+                  >
+                    {p.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Gateways Column */}
+          <div className="reveal-trigger" style={{ transitionDelay: "250ms" }}>
+            <div className="text-[11px] font-mono uppercase tracking-widest text-foreground/80 mb-4">Gateways</div>
+            <ul className="space-y-2">
+              {socialLinksList.map((l) => (
+                <li key={l.href}>
+                  <a
+                    href={l.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="group text-[13px] text-muted-foreground hover:text-foreground transition-colors duration-200 flex items-center gap-1 py-1"
+                  >
+                    <span>{l.label}</span>
+                    <span className="text-[10px] text-muted-foreground/50 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </footer>

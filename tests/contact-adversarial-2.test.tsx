@@ -17,6 +17,13 @@ mock.module("@tanstack/react-router", () => {
   };
 });
 
+// Mock SiteShell to isolate Contact component testing and improve runtime reliability
+mock.module("@/components/site-shell", () => {
+  return {
+    SiteShell: ({ children }: any) => <div className="site-shell-mock">{children}</div>,
+  };
+});
+
 import { test, describe, expect } from "bun:test";
 import { renderToStaticMarkup } from "react-dom/server";
 import { Route } from "../src/routes/contact";

@@ -141,7 +141,7 @@ describe("Contact Page Redesign - Static AST & Configuration Verification", () =
   });
 
   test("TC-3.1.2: Valid target URLs (Email, LinkedIn, GitHub)", () => {
-    expect(content).toContain("hello@abinesh.blog");
+    expect(content).toContain("YWJpbmVzaC5haS5tbEBnbWFpbC5jb20=");
     expect(content).toContain("siteMetadata.socials.linkedin");
     expect(content).toContain("siteMetadata.socials.github");
   });

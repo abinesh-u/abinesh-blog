@@ -39,8 +39,8 @@ const communicationNodes = [
   {
     port: "01",
     label: "Email",
-    value: "hello@abinesh.blog",
-    href: "mailto:hello@abinesh.blog",
+    value: "abinesh.ai.ml [at] gmail.com",
+    href: "#",
     icon: Mail,
     protocol: "SMTP / SSL",
     purpose: "DIRECT INTAKE",
@@ -141,15 +141,14 @@ function Contact() {
         {/* ── HERO ────────────────────────────────────────────────── */}
         <section className="relative border-b hairline overflow-hidden">
 
-          {/* Full-section subtle dot bg */}
           <div aria-hidden className="absolute inset-0 dot-bg opacity-[0.04] pointer-events-none" />
 
-          <div className="relative mx-auto max-w-7xl px-6 lg:px-10 pt-16 pb-0 grid lg:grid-cols-12 gap-10 lg:gap-0 items-end">
+          <div className="relative mx-auto max-w-7xl px-6 lg:px-10 pt-8 pb-24 mt-10 grid lg:grid-cols-12 gap-10 lg:gap-0 items-end">
 
             {/* LEFT — text column, About-page typography pattern */}
             <div className="col-span-12 lg:col-span-6 pb-20 flex flex-col justify-end opacity-0 animate-reveal [animation-delay:100ms]">
               <div className="flex items-center gap-4 mb-8">
-                <span className="mono-meta text-muted-foreground">06 / Open a Channel</span>
+                <span className="mono-meta text-muted-foreground">06 / CONTACT</span>
                 <span className="h-px w-20 bg-foreground" />
               </div>
 
@@ -160,13 +159,16 @@ function Contact() {
               </h1>
 
               <p className="mt-8 text-sm text-muted-foreground max-w-md leading-relaxed">
-                Every meaningful collaboration starts with a well-defined communication protocol.
-                Available for AI architecture consulting, agentic systems, and research collaborations.
+                I am reachable for collaborations on agentic systems, advisory work on production AI infrastructure, writing and speaking.
               </p>
 
               <div className="mt-10 flex flex-wrap items-center gap-4">
                 <a
-                  href="mailto:hello@abinesh.blog"
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.location.href = "mailto:" + atob("YWJpbmVzaC5haS5tbEBnbWFpbC5jb20=");
+                  }}
                   className="font-mono text-xs uppercase tracking-widest bg-foreground text-background px-5 py-3 hover:opacity-80 transition-opacity"
                 >
                   Send a Message →
@@ -259,10 +261,10 @@ function Contact() {
               {/* Sticker in front of constellation */}
               <img
                 src={stickerUrl}
-                alt="Abinesh U"
+                alt="Abinesh U sticker"
                 fetchPriority="high"
                 decoding="async"
-                className="relative z-10 w-full max-w-[340px] lg:max-w-none lg:h-[88%] h-auto w-auto object-contain object-bottom pointer-events-none select-none transition-transform duration-500 hover:scale-[1.01]"
+                className="relative z-10 w-full max-w-[340px] lg:max-w-none h-[105%] lg:h-[120%] w-auto object-contain object-bottom select-none hover:scale-[1.02] transition-transform duration-500 ease-out drop-shadow-[0_16px_48px_rgba(0,0,0,0.12)]"
               />
             </div>
 
@@ -323,7 +325,7 @@ function Contact() {
                 {/* Target Columns */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-x-0 gap-y-6 md:gap-y-0 w-full mt-4 md:mt-0">
                   {communicationNodes.map((node, index) => (
-                    <div key={node.port} className="flex flex-col px-3">
+                    <div key={node.port} className="flex flex-col px-3 reveal-trigger" style={{ transitionDelay: `${index * 150}ms` }}>
                       {index > 0 && (
                         <div className="md:hidden w-px h-6 bg-foreground/15 mx-auto" />
                       )}
@@ -331,9 +333,12 @@ function Contact() {
                         href={node.href}
                         target={node.href.startsWith("http") ? "_blank" : undefined}
                         rel="noreferrer"
-                        className={`relative border border-foreground/10 ${node.brandBorder} bg-background/50 p-5 rounded transition-all duration-300 group cursor-pointer`}
+                        className={`relative border border-foreground/10 ${node.brandBorder} bg-background/50 hover:bg-secondary/40 hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(0,0,0,0.02)] p-5 rounded transition-all duration-300 ease-expo group cursor-pointer`}
                         onClick={(e) => {
-                          if (typeof window !== "undefined" && window.innerWidth < 768) {
+                          if (node.port === "01") {
+                            e.preventDefault();
+                            window.location.href = "mailto:" + atob("YWJpbmVzaC5haS5tbEBnbWFpbC5jb20=");
+                          } else if (typeof window !== "undefined" && window.innerWidth < 768) {
                             if (activeCard !== node.port) {
                               e.preventDefault();
                               setActiveCard(node.port);
@@ -341,7 +346,10 @@ function Contact() {
                           }
                         }}
                         onTouchStart={(e) => {
-                          if (typeof window !== "undefined" && window.innerWidth < 768) {
+                          if (node.port === "01") {
+                            e.preventDefault();
+                            window.location.href = "mailto:" + atob("YWJpbmVzaC5haS5tbEBnbWFpbC5jb20=");
+                          } else if (typeof window !== "undefined" && window.innerWidth < 768) {
                             if (activeCard !== node.port) {
                               e.preventDefault();
                               setActiveCard(node.port);
@@ -352,7 +360,7 @@ function Contact() {
                         <div className="flex items-center justify-between mb-4">
                           <span className="font-mono text-[9px] text-foreground/45 font-semibold">PORT / ch_{node.port}</span>
                           <span className="flex items-center gap-1.5 font-mono text-[9px] text-foreground/40 font-semibold">
-                            <span className={`h-1.5 w-1.5 rounded-full ${node.statusBg} animate-pulse`} />
+                            <span className={`status-indicator h-1.5 w-1.5 rounded-full ${node.statusBg}`} />
                             {node.status}
                           </span>
                         </div>
@@ -396,7 +404,7 @@ function Contact() {
         </section>
 
         {/* KNOWLEDGE NETWORK ECOSYSTEM & COLLABORATION PROTOCOL */}
-        <section className="relative mx-auto max-w-7xl px-6 lg:px-10 py-16 border-t hairline bg-background/50 grid lg:grid-cols-12 gap-12">
+        <section className="relative mx-auto max-w-7xl px-6 lg:px-10 py-16 border-t hairline bg-background/50 grid lg:grid-cols-12 gap-12 reveal-trigger">
           {/* R3. Knowledge Network Connected Ecosystem (Left Column) */}
           <div className="col-span-12 lg:col-span-7">
             <div className="flex items-center gap-4 mb-8">
@@ -423,13 +431,14 @@ function Contact() {
 
               {/* Ecosystem Grid */}
               <div className="grid grid-cols-2 md:grid-cols-3 gap-6 relative z-10">
-                {ecosystemPlatforms.map((plat) => (
+                {ecosystemPlatforms.map((plat, i) => (
                   <a
                     key={plat.name}
                     href={plat.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex flex-col justify-between border border-foreground/10 hover:border-foreground/25 bg-background/60 p-4 rounded min-h-[6.5rem] transition-all duration-300 group cursor-pointer"
+                    className="flex flex-col justify-between border border-foreground/10 hover:border-foreground/25 hover:bg-secondary/40 hover:-translate-y-0.5 transition-all duration-300 ease-expo p-4 rounded min-h-[6.5rem] cursor-pointer reveal-trigger"
+                    style={{ transitionDelay: `${i * 80}ms` }}
                   >
                     <div className="flex items-center justify-between mb-3">
                       <span className="font-mono text-[8px] text-foreground/45 uppercase tracking-wider font-semibold">{plat.type}</span>
@@ -441,8 +450,8 @@ function Contact() {
                     {/* Hover Platform Metadata */}
                     <div className="mt-3 pt-2 border-t border-foreground/5 flex justify-between font-mono text-[8px] text-foreground/45 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <span>{plat.handle}</span>
-                      <span className="flex items-center gap-1 text-[7px] text-emerald-500 font-bold">
-                        <span className={`h-1 w-1 rounded-full ${getStatusColorClass(plat.status)}`} />
+                      <span className="flex items-center gap-1.5 text-[7px] text-emerald-500 font-bold">
+                        <span className={`status-indicator h-1 w-1 rounded-full ${getStatusColorClass(plat.status)}`} />
                         {plat.status}
                       </span>
                     </div>

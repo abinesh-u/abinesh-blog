@@ -262,7 +262,7 @@ describe("Contact Component - Dynamic DOM & Integration Validation", () => {
 
   test("TC-3.2: Interaction clickability during detail drawers expansion", () => {
     // Links have "group cursor-pointer" and pointer-events is NOT disabled on the link itself
-    expect(html).toContain("mailto:hello@abinesh.blog");
+    expect(html).toContain("abinesh.ai.ml [at] gmail.com");
     expect(html).toContain("group-hover:max-h-40");
     // Verify dot-bg has pointer-events-none so it doesn't block clicks on links
     expect(html).toContain("dot-bg opacity-[0.03] pointer-events-none");
@@ -294,7 +294,7 @@ describe("Contact Component - Dynamic DOM & Integration Validation", () => {
   // ==========================================
   test("TC-4.1: Client E2E onboarding walkthrough simulation", () => {
     // Simulate navigation walkthrough: Client finds email channel
-    const emailIndex = html.indexOf("hello@abinesh.blog");
+    const emailIndex = html.indexOf("abinesh.ai.ml [at] gmail.com");
     const emailProtocol = html.indexOf("SMTP / SSL");
     const emailAction = html.indexOf("SEND ↗");
     

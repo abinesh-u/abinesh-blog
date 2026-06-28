@@ -4,7 +4,7 @@ export const siteMetadata = {
   description:
     "Abinesh U is an AI Engineer specializing in Agentic AI, Multi-Agent Systems, AI Architecture, AI Infrastructure, and Production AI systems.",
   url: "https://abinesh.blog",
-  imageUrl: "https://abinesh.blog/assets/about/abinesh-public-profile.webp",
+  imageUrl: "https://abinesh.blog/assets/about/abinesh-public-profile.png",
   socials: {
     linkedin: "https://www.linkedin.com/in/abineshu/",
     github: "https://github.com/abinesh-u",

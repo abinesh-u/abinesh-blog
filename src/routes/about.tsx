@@ -28,7 +28,7 @@ const schemas = {
       publisher: { "@id": `${siteMetadata.url}/#person` },
     },
     {
-      "@type": "WebPage",
+      "@type": "ProfilePage",
       "@id": `${siteMetadata.url}/about/#webpage`,
       url: `${siteMetadata.url}/about`,
       name: siteMetadata.title,
@@ -225,7 +225,7 @@ function About() {
         </section>
 
         {/* DEFINITIVE IDENTITY / SEO SECTION */}
-        <section className="mx-auto max-w-7xl px-6 lg:px-10 pt-4 lg:pt-6 pb-20 border-t hairline" id="who">
+        <section className="mx-auto max-w-7xl px-6 lg:px-10 pt-4 lg:pt-6 pb-20 border-t hairline reveal-trigger" id="who">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
             <div className="lg:col-span-4">
               <div className="flex items-center gap-4 mb-6">
@@ -289,10 +289,10 @@ function About() {
         </section>
 
         {/* MIDDLE SECTION */}
-        <section className="mx-auto max-w-7xl px-6 lg:px-10 pt-16 lg:pt-20 pb-12 lg:pb-16 border-t hairline">
+        <section className="mx-auto max-w-7xl px-6 lg:px-10 pt-16 lg:pt-20 pb-12 lg:pb-16 border-t hairline reveal-trigger">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16">
             {/* Col 1 */}
-            <div>
+            <div className="group">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-10 h-10 border border-hairline flex items-center justify-center rounded-sm shrink-0">
                   <Box className="w-5 h-5 text-foreground stroke-[1.5]" />
@@ -309,14 +309,15 @@ function About() {
               </p>
               <Link
                 to="/projects"
-                className="inline-flex items-center justify-center border border-foreground px-5 py-3 font-mono text-xs uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors"
+                className="inline-flex items-center justify-center border border-foreground px-5 py-3 font-mono text-xs uppercase tracking-widest hover:bg-foreground hover:text-background transition-colors group/btn"
               >
-                Explore Projects <ArrowRight className="ml-3 w-4 h-4" />
+                <span>Explore Projects</span>
+                <span className="inline-block transition-transform duration-300 ease-expo group-hover/btn:translate-x-1.5 ml-2">→</span>
               </Link>
             </div>
 
             {/* Col 2 */}
-            <div className="relative">
+            <div className="relative group">
               <div className="hidden md:block absolute left-[-1.5rem] lg:left-[-2rem] top-0 bottom-0 w-[1px] bg-hairline/40"></div>
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-10 h-10 border border-hairline flex items-center justify-center rounded-full shrink-0">
@@ -339,16 +340,17 @@ function About() {
               </div>
               <Link
                 to="/systems"
-                className="mono-caps hover:underline underline-offset-4 inline-flex items-center gap-2"
+                className="mono-caps hover:underline underline-offset-4 inline-flex items-center gap-1.5 group/btn"
               >
-                See what I'm working on <ArrowRight className="w-3.5 h-3.5" />
+                <span>See what I'm working on</span>
+                <span className="inline-block transition-transform duration-300 ease-expo group-hover/btn:translate-x-1">→</span>
               </Link>
             </div>
           </div>
         </section>
 
         {/* BOTTOM SECTION (JOURNEY) */}
-        <section className="mx-auto max-w-7xl px-6 lg:px-10 pt-16 lg:pt-20 pb-12 lg:pb-16 border-t hairline">
+        <section className="mx-auto max-w-7xl px-6 lg:px-10 pt-16 lg:pt-20 pb-12 lg:pb-16 border-t hairline reveal-trigger">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
             {/* Journey */}
             <div className="lg:col-span-12">
@@ -356,7 +358,7 @@ function About() {
                 <span className="mono-meta text-muted-foreground">04 / Journey</span>
                 <span className="h-px w-20 bg-foreground/15" />
               </div>
-              <h3 className="text-3xl font-semibold tracking-tighter mb-14 text-foreground">
+              <h3 className="text-3xl font-semibold tracking-tighter mb-14 text-foreground pr-4">
                 From data to systems.
               </h3>
 
@@ -395,7 +397,7 @@ function About() {
 
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8 relative z-10">
                   {/* Step 1 */}
-                  <div className="group flex flex-col items-center md:items-start">
+                  <div className="group flex flex-col items-center md:items-start reveal-trigger" style={{ transitionDelay: "50ms" }}>
                     {/* Node circle */}
                     <div className="w-14 h-14 rounded-full border border-hairline bg-background flex items-center justify-center mono-caps text-foreground/80 group-hover:border-foreground group-hover:text-foreground transition-all duration-300 shadow-sm relative mb-6">
                       01
@@ -404,7 +406,7 @@ function About() {
                     </div>
 
                     {/* Card block */}
-                    <div className="w-full border border-hairline/60 bg-muted/10 p-5 rounded-sm hover:border-foreground/40 transition-all duration-300 flex flex-col justify-between min-h-[180px] relative">
+                    <div className="w-full border border-hairline/60 bg-muted/10 p-5 rounded-sm hover:border-foreground/40 hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(0,0,0,0.02)] transition-all duration-300 flex flex-col justify-between min-h-[180px] relative">
                       {/* Tech corner tick */}
                       <div className="absolute top-0 right-0 w-2 h-2 border-t border-r hairline/40 group-hover:border-foreground/40 transition-colors"></div>
                       <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l hairline/40 group-hover:border-foreground/40 transition-colors"></div>
@@ -429,7 +431,7 @@ function About() {
                   </div>
 
                   {/* Step 2 */}
-                  <div className="group flex flex-col items-center md:items-start">
+                  <div className="group flex flex-col items-center md:items-start reveal-trigger" style={{ transitionDelay: "150ms" }}>
                     {/* Node circle */}
                     <div className="w-14 h-14 rounded-full border border-hairline bg-background flex items-center justify-center mono-caps text-foreground/80 group-hover:border-foreground group-hover:text-foreground transition-all duration-300 shadow-sm relative mb-6">
                       02
@@ -437,7 +439,7 @@ function About() {
                     </div>
 
                     {/* Card block */}
-                    <div className="w-full border border-hairline/60 bg-muted/10 p-5 rounded-sm hover:border-foreground/40 transition-all duration-300 flex flex-col justify-between min-h-[180px] relative">
+                    <div className="w-full border border-hairline/60 bg-muted/10 p-5 rounded-sm hover:border-foreground/40 hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(0,0,0,0.02)] transition-all duration-300 flex flex-col justify-between min-h-[180px] relative">
                       <div className="absolute top-0 right-0 w-2 h-2 border-t border-r hairline/40 group-hover:border-foreground/40 transition-colors"></div>
                       <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l hairline/40 group-hover:border-foreground/40 transition-colors"></div>
 
@@ -462,7 +464,7 @@ function About() {
                   </div>
 
                   {/* Step 3 */}
-                  <div className="group flex flex-col items-center md:items-start">
+                  <div className="group flex flex-col items-center md:items-start reveal-trigger" style={{ transitionDelay: "250ms" }}>
                     {/* Node circle */}
                     <div className="w-14 h-14 rounded-full border border-hairline bg-background flex items-center justify-center mono-caps text-foreground/80 group-hover:border-foreground group-hover:text-foreground transition-all duration-300 shadow-sm relative mb-6">
                       03
@@ -470,7 +472,7 @@ function About() {
                     </div>
 
                     {/* Card block */}
-                    <div className="w-full border border-hairline/60 bg-muted/10 p-5 rounded-sm hover:border-foreground/40 transition-all duration-300 flex flex-col justify-between min-h-[180px] relative">
+                    <div className="w-full border border-hairline/60 bg-muted/10 p-5 rounded-sm hover:border-foreground/40 hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(0,0,0,0.02)] transition-all duration-300 flex flex-col justify-between min-h-[180px] relative">
                       <div className="absolute top-0 right-0 w-2 h-2 border-t border-r hairline/40 group-hover:border-foreground/40 transition-colors"></div>
                       <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l hairline/40 group-hover:border-foreground/40 transition-colors"></div>
 
@@ -494,7 +496,7 @@ function About() {
                   </div>
 
                   {/* Step 4 */}
-                  <div className="group flex flex-col items-center md:items-start">
+                  <div className="group flex flex-col items-center md:items-start reveal-trigger" style={{ transitionDelay: "350ms" }}>
                     {/* Node circle */}
                     <div className="w-14 h-14 rounded-full border border-hairline bg-background flex items-center justify-center mono-caps text-foreground/80 group-hover:border-foreground group-hover:text-foreground transition-all duration-300 shadow-sm relative mb-6">
                       04
@@ -502,7 +504,7 @@ function About() {
                     </div>
 
                     {/* Card block */}
-                    <div className="w-full border border-hairline/60 bg-muted/10 p-5 rounded-sm hover:border-foreground/40 transition-all duration-300 flex flex-col justify-between min-h-[180px] relative">
+                    <div className="w-full border border-hairline/60 bg-muted/10 p-5 rounded-sm hover:border-foreground/40 hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(0,0,0,0.02)] transition-all duration-300 flex flex-col justify-between min-h-[180px] relative">
                       <div className="absolute top-0 right-0 w-2 h-2 border-t border-r hairline/40 group-hover:border-foreground/40 transition-colors"></div>
                       <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l hairline/40 group-hover:border-foreground/40 transition-colors"></div>
 
