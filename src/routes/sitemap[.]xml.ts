@@ -6,7 +6,7 @@ const BASE_URL = "https://abinesh.blog";
 
 interface SitemapEntry {
   path: string;
-  changefreq?: "weekly" | "monthly";
+  changefreq?: "weekly" | "monthly" | "yearly";
   priority?: string;
 }
 
@@ -16,11 +16,11 @@ export const Route = createFileRoute("/sitemap.xml")({
       GET: async () => {
         const entries: SitemapEntry[] = [
           { path: "/", changefreq: "weekly", priority: "1.0" },
-          { path: "/about", changefreq: "monthly", priority: "0.8" },
+          { path: "/about", changefreq: "monthly", priority: "0.9" },
           { path: "/systems", changefreq: "weekly", priority: "0.9" },
           { path: "/projects", changefreq: "monthly", priority: "0.8" },
           { path: "/blog", changefreq: "weekly", priority: "0.9" },
-          { path: "/contact", changefreq: "monthly", priority: "0.5" },
+          { path: "/contact", changefreq: "yearly", priority: "0.5" },
         ];
         const urls = entries
           .map(
