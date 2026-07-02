@@ -91,7 +91,7 @@ function About() {
   return (
     <SiteShell>
       <div
-        className="bg-background text-foreground min-h-screen font-sans selection:bg-foreground selection:text-background overflow-x-hidden"
+        className="w-full"
         itemScope
         itemType="https://schema.org/Person"
       >

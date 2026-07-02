@@ -202,7 +202,7 @@ function Contact() {
   const [activeCard, setActiveCard] = useState<string | null>(null);
   return (
     <SiteShell>
-      <div className="bg-background text-foreground min-h-screen font-sans selection:bg-foreground selection:text-background overflow-x-hidden">
+      <div className="w-full">
         {/* ── HERO ────────────────────────────────────────────────── */}
         <section className="relative border-b hairline overflow-hidden">
 

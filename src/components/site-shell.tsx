@@ -22,28 +22,45 @@ export function SiteShell({ children }: { children: ReactNode }) {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add("reveal-active");
-            // Optionally stop observing once triggered to run animation only once
             observer.unobserve(entry.target);
           }
         });
       },
       {
         root: null,
-        rootMargin: "0px 0px -10px 0px", // Trigger when elements are just inside the viewport
-        threshold: 0.05,
+        rootMargin: "0px 0px -10px 0px",
+        threshold: 0.01,
       }
     );
 
-    // Dynamic queries for any trigger elements
-    const elements = document.querySelectorAll(
-      ".reveal-trigger, .reveal-trigger-scale, .reveal-trigger-left, .reveal-trigger-right"
-    );
-    elements.forEach((el) => observer.observe(el));
+    const observeElements = () => {
+      const elements = document.querySelectorAll(
+        ".reveal-trigger, .reveal-trigger-scale, .reveal-trigger-left, .reveal-trigger-right"
+      );
+      elements.forEach((el) => {
+        if (!el.classList.contains("reveal-active")) {
+          observer.observe(el);
+        }
+      });
+    };
+
+    // Observe initial elements
+    observeElements();
+
+    // Use MutationObserver to observe elements loaded after data/route transition finishes
+    const mutationObserver = new MutationObserver(() => {
+      observeElements();
+    });
+    mutationObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
 
     return () => {
       observer.disconnect();
+      mutationObserver.disconnect();
     };
-  }, [pathname]); // Re-run observer on page/navigation changes
+  }, [pathname]);
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col">
