@@ -229,10 +229,12 @@ function TerminalConsoleWidget() {
     setLoading(true);
 
     const cmdLower = trimmed.toLowerCase();
+    const args = cmdLower.split(/\s+/);
+    const baseCmd = args[0];
 
     setTimeout(() => {
       let outputLines: TerminalLine[] = [];
-      switch (cmdLower) {
+      switch (baseCmd) {
         case "help":
           outputLines = [
             { type: "system", text: "--------------------------------" },
@@ -349,13 +351,44 @@ function TerminalConsoleWidget() {
           break;
         case "systems":
           outputLines = [
-            { type: "output", text: "SYS-01 : Multi-Agent Systems" },
-            { type: "output", text: "SYS-02 : Agent Memory Systems" },
-            { type: "output", text: "SYS-03 : RAG Architectures" },
-            { type: "output", text: "SYS-04 : MCP Architectures" },
-            { type: "output", text: "SYS-05 : AI Evaluation Systems" },
-            { type: "output", text: "SYS-06 : Production AI Patterns" }
+            { type: "output", text: "Detected Runtime Modules" },
+            { type: "output", text: "" },
+            { type: "output", text: "✓ Hermes" },
+            { type: "output", text: "Research & Multi-Agent Orchestration" },
+            { type: "output", text: "" },
+            { type: "output", text: "✓ Athena" },
+            { type: "output", text: "Knowledge Intelligence Platform" },
+            { type: "output", text: "" },
+            { type: "output", text: "✓ Aegis" },
+            { type: "output", text: "Evaluation & Security Framework" },
+            { type: "output", text: "" },
+            { type: "system", text: 'Type "open <name>" (e.g. open hermes) to inspect.' }
           ];
+          break;
+        case "open":
+          const target = args[1];
+          if (!target) {
+            outputLines = [
+              { type: "output", text: "Usage: open <module>" },
+              { type: "output", text: "Available modules: hermes, athena, aegis" }
+            ];
+          } else if (target === "hermes" || target === "athena" || target === "aegis") {
+            const capitalize = target.charAt(0).toUpperCase() + target.slice(1);
+            outputLines = [
+              { type: "output", text: `Opening ${capitalize}...` },
+              { type: "output", text: "Redirecting..." }
+            ];
+            setTimeout(() => {
+              if (typeof window !== "undefined") {
+                window.location.href = `/projects#${target}`;
+              }
+            }, 800);
+          } else {
+            outputLines = [
+              { type: "output", text: `Module not detected: ${target}` },
+              { type: "output", text: "Available modules: hermes, athena, aegis" }
+            ];
+          }
           break;
         case "blog":
           outputLines = [
