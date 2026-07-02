@@ -97,7 +97,7 @@ function Hero({ activeMapping }: { activeMapping: string | null }) {
             </div>
           </div>
 
-          <div className="lg:col-span-5 relative min-h-[30rem] lg:min-h-[38rem] mt-12 lg:mt-0 flex items-center justify-center opacity-0 animate-reveal [animation-delay:750ms]">
+          <div className="lg:col-span-5 relative min-h-[30rem] lg:min-h-[38rem] mt-12 lg:mt-0 flex items-center justify-center opacity-0 animate-reveal">
             {/* Portrait transparent SVG sticker (unwrapped, bleeding freely) */}
             <img
               src="/assets/home/abinesh-portrait.svg"

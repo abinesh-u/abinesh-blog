@@ -212,7 +212,7 @@ function About() {
           </div>
 
           {/* Profile Image (Sitting on table) */}
-          <div className="col-span-12 lg:col-span-6 relative min-h-[25rem] lg:min-h-[48rem] mt-8 lg:mt-0 flex items-end lg:items-center justify-center lg:justify-end opacity-0 animate-reveal [animation-delay:300ms]">
+          <div className="col-span-12 lg:col-span-6 relative min-h-[25rem] lg:min-h-[48rem] mt-8 lg:mt-0 flex items-end lg:items-center justify-center lg:justify-end opacity-0 animate-reveal">
             <img
               itemProp="image"
               src="/assets/about/abinesh-profile.svg"

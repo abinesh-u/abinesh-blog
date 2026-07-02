@@ -178,7 +178,7 @@ function Contact() {
             </div>
 
             {/* RIGHT — sticker + constellation animation */}
-            <div className="col-span-12 lg:col-span-6 relative min-h-[460px] lg:min-h-[600px] flex items-end justify-center opacity-0 animate-reveal [animation-delay:250ms]">
+            <div className="col-span-12 lg:col-span-6 relative min-h-[460px] lg:min-h-[600px] flex items-end justify-center opacity-0 animate-reveal">
 
               {/* Constellation SVG — sits behind the sticker */}
               <svg
