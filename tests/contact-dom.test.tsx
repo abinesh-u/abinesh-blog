@@ -122,81 +122,33 @@ describe("Contact Component - Dynamic DOM & Integration Validation", () => {
   });
 
   // ==========================================
-  // 6. Collaboration Protocol Workflow
+  // 6. Cryptographic Identity & Secure Verification
   // ==========================================
-  test("TC-6.1.1: Process step count (4 steps)", () => {
-    expect(html).toContain("01");
-    expect(html).toContain("02");
-    expect(html).toContain("03");
-    expect(html).toContain("04");
+  test("TC-6.1: Secure verification widget presence", () => {
+    expect(html).toContain("PGP_PUBLIC_KEY");
+    expect(html).toContain("Secure Verification");
   });
 
-  test("TC-6.1.2: Chronological ordering (01, 02, 03, 04)", () => {
-    // Scope the search to the collaboration protocol section which comes after Communication Topology
-    const sectionStart = html.indexOf("Collaboration Protocol");
-    expect(sectionStart).toBeGreaterThan(-1);
-    const sectionHtml = html.slice(sectionStart);
-    const idx1 = sectionHtml.indexOf(">01<");
-    const idx2 = sectionHtml.indexOf(">02<");
-    const idx3 = sectionHtml.indexOf(">03<");
-    const idx4 = sectionHtml.indexOf(">04<");
-    expect(idx1).toBeGreaterThan(-1);
-    expect(idx1).toBeLessThan(idx2);
-    expect(idx2).toBeLessThan(idx3);
-    expect(idx3).toBeLessThan(idx4);
+  test("TC-6.2: Cryptographic metadata rendering", () => {
+    expect(html).toContain("KEY_ID");
+    expect(html).toContain("0x8B7C9D6E");
+    expect(html).toContain("Ed25519");
+    expect(html).toContain("2026-06-28");
   });
 
-  test("TC-6.1.3: Phase title matches (Discovery, Architecture Review, Proposal, Execution)", () => {
-    expect(html).toContain("Discovery");
-    expect(html).toContain("Architecture Review");
-    expect(html).toContain("Proposal");
-    expect(html).toContain("Execution");
+  test("TC-6.3: Fingerprint display correctness", () => {
+    expect(html).toContain("KEY_FINGERPRINT");
+    expect(html).toContain("9F7C A463 D5E2 B8A0 1C4D");
+    expect(html).toContain("7F9E 8B7C 9D6E 2A5F 1B3D");
   });
 
-  test("TC-6.1.4: Descriptive text blocks existence", () => {
-    expect(html).toContain("Initial intake, scope alignment");
-    expect(html).toContain("Deep-dive analysis of agent loops");
-    expect(html).toContain("Formulating multi-agent orchestration designs");
-    expect(html).toContain("Implementation, testing, evaluation runtimes");
+  test("TC-6.4: Interactive buttons count and text", () => {
+    expect(html).toContain("COPY");
+    expect(html).toContain("DOWNLOAD");
   });
 
-  test("TC-6.1.5: Thin vertical connector line positioning", () => {
-    expect(html).toContain("absolute left-10 top-10 bottom-10 w-px");
-  });
-
-  test("TC-6.2.1: Diagnostics status tags display", () => {
-    expect(html).toContain("INPUT");
-    expect(html).toContain("PROCESSED");
-    expect(html).toContain("COMPILE");
-    expect(html).toContain("OUTPUT");
-  });
-
-  test("TC-6.2.2: Pulsing bullet step accents", () => {
-    expect(html).toContain("absolute -top-0.5 -right-0.5 h-1.5 w-1.5");
-  });
-
-  test("TC-6.2.3: Connector alignment on mobile", () => {
-    // Verifies timeline connector element contains responsive alignment configurations
-    expect(html).toContain("left-10");
-  });
-
-  test("TC-6.2.4: Text alignment stability", () => {
-    expect(html).toContain("flex-1 min-w-0");
-  });
-
-  test("TC-6.2.5: React iteration key compliance", () => {
-    // Verify that the step numbers used as keys ("01".."04") appear in HTML as distinct elements
-    // This confirms React received unique keys during map rendering
-    const stepPattern = /\b0[1-4]\b/g;
-    const sectionStart = html.indexOf("Collaboration Protocol");
-    expect(sectionStart).toBeGreaterThan(-1);
-    const protocolSection = html.slice(sectionStart);
-    const stepMatches = protocolSection.match(stepPattern) || [];
-    // Should have all 4 steps rendered
-    expect(stepMatches.filter(m => m === "01").length).toBeGreaterThanOrEqual(1);
-    expect(stepMatches.filter(m => m === "02").length).toBeGreaterThanOrEqual(1);
-    expect(stepMatches.filter(m => m === "03").length).toBeGreaterThanOrEqual(1);
-    expect(stepMatches.filter(m => m === "04").length).toBeGreaterThanOrEqual(1);
+  test("TC-6.5: Layout stability and style details", () => {
+    expect(html).toContain("relative border border-hairline/80 bg-background/30 backdrop-blur-[2px]");
   });
 
   // ==========================================
@@ -283,10 +235,10 @@ describe("Contact Component - Dynamic DOM & Integration Validation", () => {
   test("TC-3.5: Diagnostics dashboard and timeline tag casing consistency", () => {
     // Confirm uppercase casing on telemetry tags and status badges
     expect(html).toContain("SYS_STATUS_OK");
-    expect(html).toContain("INPUT");
-    expect(html).toContain("PROCESSED");
-    expect(html).toContain("COMPILE");
-    expect(html).toContain("OUTPUT");
+    expect(html).toContain("ACTIVE");
+    expect(html).toContain("LOC_ZONE_01");
+    expect(html).toContain("METRIC_RESP_01");
+    expect(html).toContain("GATEWAY_PREF");
   });
 
   // ==========================================

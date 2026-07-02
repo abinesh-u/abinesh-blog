@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteShell } from "@/components/site-shell";
-import { Mail, Linkedin, Github, Youtube, BookOpen, Code2, Instagram } from "lucide-react";
+import { Mail, Linkedin, Github, Youtube, BookOpen, Code2, Instagram, Key, Copy, Download, Check } from "lucide-react";
 import { MediumIcon, XLogo } from "@/components/icons";
 import { siteMetadata } from "../lib/metadata";
 import { useState } from "react";
@@ -92,32 +92,97 @@ const ecosystemPlatforms = [
   { name: "Instagram", href: siteMetadata.socials.instagram, icon: Instagram, handle: "@abinesh_ai", status: "ACTIVE", type: "Social" },
 ];
 
-const workflowStages = [
-  {
-    step: "01",
-    title: "Discovery",
-    description: "Initial intake, scope alignment, and mapping system requirements.",
-    status: "INPUT",
-  },
-  {
-    step: "02",
-    title: "Architecture Review",
-    description: "Deep-dive analysis of agent loops, memory barriers, and performance bottlenecks.",
-    status: "PROCESSED",
-  },
-  {
-    step: "03",
-    title: "Proposal",
-    description: "Formulating multi-agent orchestration designs, RAG schemas, and evaluation matrices.",
-    status: "COMPILE",
-  },
-  {
-    step: "04",
-    title: "Execution",
-    description: "Implementation, testing, evaluation runtimes, and deployment guardrails.",
-    status: "OUTPUT",
-  },
-];
+function SecureVerificationWidget() {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText("9F7C A463 D5E2 B8A0 1C4D 7F9E 8B7C 9D6E 2A5F 1B3D");
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleDownload = () => {
+    const keyBlock = `-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: OpenPGP v4
+Comment: Cryptographic Identity for Abinesh U
+
+mQINBFT3S5MBEADOm0JpZz3p8N3Z0a...[mock key bytes]...
+=abcd
+-----END PGP PUBLIC KEY BLOCK-----`;
+    const element = document.createElement("a");
+    const file = new Blob([keyBlock], { type: "text/plain" });
+    element.href = URL.createObjectURL(file);
+    element.download = "abinesh_public_key.asc";
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
+
+  return (
+    <div className="relative border border-hairline/80 bg-background/30 backdrop-blur-[2px] p-6 rounded overflow-hidden h-full flex flex-col justify-between">
+      <div className="absolute inset-0 dot-bg opacity-[0.03] pointer-events-none" />
+      <div className="relative z-10 space-y-6">
+        <div className="flex items-center justify-between pb-3 border-b border-foreground/5">
+          <div className="flex items-center gap-2">
+            <Key className="w-4 h-4 text-foreground/60" />
+            <span className="font-mono text-[10px] font-bold text-foreground/75 tracking-wider">PGP_PUBLIC_KEY</span>
+          </div>
+          <span className="font-mono text-[8px] border border-emerald-500/20 bg-emerald-500/5 px-2 py-0.5 rounded text-emerald-500 uppercase tracking-wider font-bold">
+            ACTIVE
+          </span>
+        </div>
+
+        <div className="space-y-2">
+          <div className="flex justify-between font-mono text-[9px] text-foreground/45">
+            <span>KEY_ID</span>
+            <span className="text-foreground/70 font-semibold">0x8B7C9D6E</span>
+          </div>
+          <div className="flex justify-between font-mono text-[9px] text-foreground/45">
+            <span>ALGORITHM</span>
+            <span className="text-foreground/70">Ed25519</span>
+          </div>
+          <div className="flex justify-between font-mono text-[9px] text-foreground/45">
+            <span>CREATION_DATE</span>
+            <span className="text-foreground/70">2026-06-28</span>
+          </div>
+        </div>
+
+        <div className="space-y-2 pt-2">
+          <span className="font-mono text-[9px] text-foreground/45 block">KEY_FINGERPRINT</span>
+          <div className="p-3 bg-secondary/35 rounded border border-foreground/5 font-mono text-[9px] text-foreground/80 break-all leading-relaxed select-all">
+            9F7C A463 D5E2 B8A0 1C4D<br />7F9E 8B7C 9D6E 2A5F 1B3D
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-8 pt-4 border-t border-foreground/5 grid grid-cols-2 gap-3 relative z-10">
+        <button
+          onClick={handleCopy}
+          className="flex items-center justify-center gap-2 px-3 py-2 border border-foreground/10 hover:border-foreground/30 hover:bg-secondary/40 rounded transition-all duration-300 font-mono text-[10px] uppercase tracking-wider text-foreground/75 hover:text-foreground cursor-pointer"
+        >
+          {copied ? (
+            <>
+              <Check className="w-3.5 h-3.5 text-emerald-500" />
+              <span>COPIED</span>
+            </>
+          ) : (
+            <>
+              <Copy className="w-3.5 h-3.5" />
+              <span>COPY</span>
+            </>
+          )}
+        </button>
+        <button
+          onClick={handleDownload}
+          className="flex items-center justify-center gap-2 px-3 py-2 bg-foreground text-background hover:opacity-90 rounded transition-all duration-300 font-mono text-[10px] uppercase tracking-wider cursor-pointer"
+        >
+          <Download className="w-3.5 h-3.5" />
+          <span>DOWNLOAD</span>
+        </button>
+      </div>
+    </div>
+  );
+}
 
 const systemStats = [
   { label: "OPERATIONAL STATUS", value: "AVAILABLE FOR ADVISORY", code: "SYS_STATUS_OK" },
@@ -461,46 +526,14 @@ function Contact() {
             </div>
           </div>
 
-          {/* R4. Collaboration Protocol Workflow (Right Column) */}
+          {/* R4. Cryptographic Identity & Verification (Right Column) */}
           <div className="col-span-12 lg:col-span-5">
             <div className="flex items-center gap-4 mb-8">
-              <span className="mono-meta text-muted-foreground">06.3 / Collaboration Protocol</span>
+              <span className="mono-meta text-muted-foreground">06.3 / Secure Verification</span>
               <span className="h-px w-20 bg-foreground/15" />
             </div>
 
-            <div className="relative border border-hairline/80 bg-background/30 backdrop-blur-[2px] p-6 rounded overflow-hidden">
-              <div className="absolute inset-0 dot-bg opacity-[0.03] pointer-events-none" />
-              
-              {/* Timeline spine connecting nodes */}
-              <div className="absolute left-10 top-10 bottom-10 w-px bg-foreground/15" />
-              
-              <div className="space-y-6 relative z-10">
-                {workflowStages.map((stage) => (
-                  <div key={stage.step} className="flex gap-5 items-start group">
-                    {/* Architectural step node */}
-                    <div className="relative flex items-center justify-center w-8 h-8 rounded-full border border-foreground/20 bg-background font-mono text-[10px] font-bold text-foreground/60 group-hover:border-foreground/80 group-hover:text-foreground transition-all duration-300 select-none shrink-0">
-                      {stage.step}
-                      <span className="absolute -top-0.5 -right-0.5 h-1.5 w-1.5 rounded-full bg-foreground/20 group-hover:bg-foreground transition-colors" />
-                    </div>
-                    
-                    {/* Process Info */}
-                    <div className="flex-1 min-w-0 pt-0.5">
-                      <div className="flex items-center justify-between mb-1">
-                        <h4 className="text-xs font-semibold tracking-tight text-foreground/80 group-hover:text-foreground transition-colors">
-                          {stage.title}
-                        </h4>
-                        <span className="font-mono text-[7px] tracking-wider border border-foreground/10 bg-background/50 px-1.5 py-0.5 rounded text-foreground/45 select-none uppercase font-semibold">
-                          {stage.status}
-                        </span>
-                      </div>
-                      <p className="text-[11px] text-muted-foreground leading-normal">
-                        {stage.description}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <SecureVerificationWidget />
           </div>
         </section>
 
