@@ -2,7 +2,6 @@ import { Link, useLocation } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 import { socialLinksList, siteMetadata } from "../lib/metadata";
 import { systems, projects } from "../lib/content";
-import { useTheme } from "./theme-provider";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -12,29 +11,6 @@ const nav = [
   { to: "/blog", label: "Blog" },
   { to: "/contact", label: "Contact" },
 ] as const;
-
-function ThemeToggle() {
-  const { theme, setTheme } = useTheme();
-
-  return (
-    <div className="flex items-center gap-1 border border-hairline bg-background/50 rounded p-0.5 font-mono text-[9px] select-none">
-      {(["light", "dark", "system"] as const).map((mode) => (
-        <button
-          key={mode}
-          onClick={() => setTheme(mode)}
-          className={`px-1.5 py-0.5 rounded-sm uppercase transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring ${
-            theme === mode
-              ? "bg-foreground text-background font-medium"
-              : "text-muted-foreground hover:text-foreground"
-          }`}
-          aria-label={`Switch to ${mode} theme`}
-        >
-          {mode === "system" ? "Sys" : mode === "light" ? "Light" : "Night"}
-        </button>
-      ))}
-    </div>
-  );
-}
 
 export function SiteShell({ children }: { children: ReactNode }) {
   const { pathname } = useLocation();
@@ -133,16 +109,13 @@ function Header() {
             </Link>
           ))}
         </nav>
-        <div className="flex items-center gap-4">
-          <ThemeToggle />
-          <Link
-            to="/contact"
-            className="group hidden md:inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-widest border border-foreground px-4 py-2 hover:bg-foreground hover:text-background transition-all duration-300 ease-expo focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
-          >
-            <span>Get in touch</span>
-            <span className="inline-block transition-transform duration-300 ease-expo group-hover:translate-x-1">→</span>
-          </Link>
-        </div>
+        <Link
+          to="/contact"
+          className="group hidden md:inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-widest border border-foreground px-4 py-2 hover:bg-foreground hover:text-background transition-all duration-300 ease-expo focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+        >
+          <span>Get in touch</span>
+          <span className="inline-block transition-transform duration-300 ease-expo group-hover:translate-x-1">→</span>
+        </Link>
       </div>
     </header>
   );

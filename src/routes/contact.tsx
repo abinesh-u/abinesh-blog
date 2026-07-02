@@ -5,8 +5,6 @@ import { MediumIcon, XLogo } from "@/components/icons";
 import { siteMetadata } from "../lib/metadata";
 import { useState, useEffect, useRef } from "react";
 
-import { useTheme } from "@/components/theme-provider";
-
 const stickerUrl = "/assets/contact/sticker.svg";
 
 export const Route = createFileRoute("/contact")({
@@ -119,13 +117,10 @@ const commands = [
   "whoami",
   "fortune",
   "coffee",
-  "sudo hire",
-  "open",
-  "theme"
+  "sudo hire"
 ];
 
 function TerminalConsoleWidget() {
-  const { theme: currentTheme, setTheme } = useTheme();
   const [history, setHistory] = useState<TerminalLine[]>(() => [
     { type: "system", text: "Initializing Runtime v2.0.6..." },
     { type: "system", text: "Loading Agent Registry..." },
@@ -392,32 +387,6 @@ function TerminalConsoleWidget() {
             outputLines = [
               { type: "output", text: `Module not detected: ${target}` },
               { type: "output", text: "Available modules: hermes, athena, aegis" }
-            ];
-          }
-          break;
-        case "theme":
-          const themeTarget = args[1];
-          if (!themeTarget) {
-            outputLines = [
-              { type: "output", text: "Usage: theme [light | dark | system]" },
-              { type: "output", text: `Current Theme: ${currentTheme.toUpperCase()}_RUNTIME` }
-            ];
-          } else if (themeTarget === "light" || themeTarget === "dark" || themeTarget === "system") {
-            const displayMode = themeTarget === "light" ? "Light Runtime" : themeTarget === "dark" ? "Night Runtime" : "System Runtime";
-            outputLines = [
-              { type: "output", text: "Switching Runtime..." },
-              { type: "output", text: "Saving Preferences..." },
-              { type: "output", text: "Reloading UI Renderer..." },
-              { type: "output", text: "████████████████████ 100%" },
-              { type: "output", text: `${displayMode} Activated.` }
-            ];
-            setTimeout(() => {
-              setTheme(themeTarget);
-            }, 250);
-          } else {
-            outputLines = [
-              { type: "output", text: `Mode not recognized: ${themeTarget}` },
-              { type: "output", text: "Usage: theme [light | dark | system]" }
             ];
           }
           break;
