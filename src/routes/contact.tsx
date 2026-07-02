@@ -1,9 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute } from '@tanstack/react-router'
 import { SiteShell } from "@/components/site-shell";
-import { Mail, Linkedin, Github, Youtube, BookOpen, Code2, Instagram, Key, Copy, Download, Check } from "lucide-react";
+import { Mail, Linkedin, Github, Youtube, BookOpen, Code2, Instagram, Terminal, CornerDownLeft } from "lucide-react";
 import { MediumIcon, XLogo } from "@/components/icons";
 import { siteMetadata } from "../lib/metadata";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 const stickerUrl = "/assets/contact/sticker.svg";
 
@@ -92,93 +92,489 @@ const ecosystemPlatforms = [
   { name: "Instagram", href: siteMetadata.socials.instagram, icon: Instagram, handle: "@abinesh_ai", status: "ACTIVE", type: "Social" },
 ];
 
-function SecureVerificationWidget() {
-  const [copied, setCopied] = useState(false);
+interface TerminalLine {
+  type: "input" | "output" | "system";
+  text: string;
+}
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText("9F7C A463 D5E2 B8A0 1C4D 7F9E 8B7C 9D6E 2A5F 1B3D");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+const commands = [
+  "help",
+  "about",
+  "status",
+  "stack",
+  "projects",
+  "systems",
+  "architecture",
+  "blog",
+  "contact",
+  "availability",
+  "location",
+  "resume",
+  "github",
+  "linkedin",
+  "vision",
+  "clear",
+  "whoami",
+  "fortune",
+  "coffee",
+  "sudo hire"
+];
+
+function TerminalConsoleWidget() {
+  const [history, setHistory] = useState<TerminalLine[]>(() => [
+    { type: "system", text: "Initializing Runtime v2.0.6..." },
+    { type: "system", text: "Loading Agent Registry..." },
+    { type: "system", text: "████████████████████ 100%" },
+    { type: "system", text: "Connecting Memory Layer..." },
+    { type: "system", text: "Loading Knowledge Graph..." },
+    { type: "system", text: "Registering MCP Tools..." },
+    { type: "system", text: "Initializing Communication Gateway..." },
+    { type: "system", text: "System Ready." },
+    { type: "system", text: 'Type "help" to begin.' }
+  ]);
+  const [inputVal, setInputVal] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [bootComplete, setBootComplete] = useState(false);
+  const [cmdHistory, setCmdHistory] = useState<string[]>([]);
+  const [historyPointer, setHistoryPointer] = useState(0);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // Client-side boot flow & periodic background logs
+  useEffect(() => {
+    const isBooted = typeof window !== "undefined" && window.sessionStorage.getItem("agent-runtime-booted") === "true";
+    if (isBooted) {
+      setHistory([
+        { type: "system", text: "Abinesh U AI Agent [Version 2.0.6]" },
+        { type: "system", text: "System Ready. Type 'help' to begin." }
+      ]);
+      setBootComplete(true);
+      return;
+    }
+
+    setHistory([]); // clear SSR items for staggered client side animation
+    const sequence = [
+      { text: "Initializing Runtime v2.0.6...", delay: 100 },
+      { text: "Loading Agent Registry...", delay: 350 },
+      { text: "████████████████████ 100%", delay: 700 },
+      { text: "Connecting Memory Layer...", delay: 950 },
+      { text: "Loading Knowledge Graph...", delay: 1150 },
+      { text: "Registering MCP Tools...", delay: 1350 },
+      { text: "Initializing Communication Gateway...", delay: 1550 },
+      { text: "System Ready.", delay: 1750 },
+      { text: 'Type "help" to begin.', delay: 1950 }
+    ];
+
+    sequence.forEach((step) => {
+      setTimeout(() => {
+        setHistory((prev) => [...prev, { type: "system", text: step.text }]);
+      }, step.delay);
+    });
+
+    setTimeout(() => {
+      setBootComplete(true);
+      if (typeof window !== "undefined") {
+        window.sessionStorage.setItem("agent-runtime-booted", "true");
+      }
+    }, 2150);
+  }, []);
+
+  // Scroll to bottom
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+  }, [history, loading]);
+
+  // Periodic background system logs
+  useEffect(() => {
+    if (!bootComplete) return;
+
+    const logMessages = [
+      "Memory synchronization complete.",
+      "Agent registry healthy.",
+      "Knowledge graph updated.",
+      "MCP Tool Servers connection stable.",
+      "Context compression pipeline executed.",
+      "Decision engine metrics calibrated."
+    ];
+
+    const interval = setInterval(() => {
+      const timeString = new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit"
+      });
+      const randomMsg = logMessages[Math.floor(Math.random() * logMessages.length)];
+      setHistory((prev) => [
+        ...prev,
+        { type: "system", text: `[${timeString}] ${randomMsg}` }
+      ]);
+    }, 30000); // every 30s
+
+    return () => clearInterval(interval);
+  }, [bootComplete]);
+
+  const executeCommand = (cmd: string) => {
+    const trimmed = cmd.trim();
+    if (!trimmed) return;
+
+    // Track command history
+    const updatedHistory = [...cmdHistory, trimmed];
+    setCmdHistory(updatedHistory);
+    setHistoryPointer(updatedHistory.length);
+
+    setHistory((prev) => [...prev, { type: "input", text: `agent@abinesh.blog:~$ ${trimmed}` }]);
+    setLoading(true);
+
+    const cmdLower = trimmed.toLowerCase();
+
+    setTimeout(() => {
+      let outputLines: TerminalLine[] = [];
+      switch (cmdLower) {
+        case "help":
+          outputLines = [
+            { type: "system", text: "--------------------------------" },
+            { type: "output", text: "AVAILABLE COMMANDS" },
+            { type: "output", text: "" },
+            { type: "output", text: "about        - Profile summary" },
+            { type: "output", text: "status       - Availability details" },
+            { type: "output", text: "stack        - Tech stack breakdown" },
+            { type: "output", text: "projects     - Active project repositories" },
+            { type: "output", text: "systems      - Architecture tracks" },
+            { type: "output", text: "architecture - Specializations" },
+            { type: "output", text: "blog         - Published articles" },
+            { type: "output", text: "resume       - Career summary" },
+            { type: "output", text: "availability - Advisory slots" },
+            { type: "output", text: "contact      - Gateways" },
+            { type: "output", text: "github       - Git node link" },
+            { type: "output", text: "linkedin     - Professional graph node" },
+            { type: "output", text: "vision       - Engineering mission" },
+            { type: "output", text: "clear        - Clear buffer" },
+            { type: "system", text: "--------------------------------" }
+          ];
+          break;
+        case "status":
+          outputLines = [
+            { type: "system", text: "--------------------------------" },
+            { type: "output", text: "SYSTEM STATUS" },
+            { type: "output", text: "● AVAILABLE FOR SELECT ADVISORY" },
+            { type: "output", text: "" },
+            { type: "output", text: "Current Focus" },
+            { type: "output", text: "• Multi-Agent Systems" },
+            { type: "output", text: "• Production AI" },
+            { type: "output", text: "• AI Infrastructure" },
+            { type: "output", text: "" },
+            { type: "output", text: "Average Response" },
+            { type: "output", text: "<24 Hours" },
+            { type: "system", text: "--------------------------------" }
+          ];
+          break;
+        case "stack":
+          outputLines = [
+            { type: "output", text: "LANGUAGES" },
+            { type: "output", text: "Python" },
+            { type: "output", text: "TypeScript" },
+            { type: "output", text: "" },
+            { type: "output", text: "FRAMEWORKS" },
+            { type: "output", text: "LangGraph" },
+            { type: "output", text: "FastAPI" },
+            { type: "output", text: "PydanticAI" },
+            { type: "output", text: "OpenAI SDK" },
+            { type: "output", text: "" },
+            { type: "output", text: "VECTOR DATABASES" },
+            { type: "output", text: "Qdrant" },
+            { type: "output", text: "" },
+            { type: "output", text: "DATABASES" },
+            { type: "output", text: "PostgreSQL" },
+            { type: "output", text: "Redis" },
+            { type: "output", text: "" },
+            { type: "output", text: "INFRASTRUCTURE" },
+            { type: "output", text: "Docker" },
+            { type: "output", text: "Vercel" },
+            { type: "output", text: "GPU Runtime" }
+          ];
+          break;
+        case "architecture":
+          outputLines = [
+            { type: "output", text: "SPECIALIZATIONS" },
+            { type: "output", text: "✓ Agent Orchestration" },
+            { type: "output", text: "✓ Memory Systems" },
+            { type: "output", text: "✓ RAG Pipelines" },
+            { type: "output", text: "✓ MCP Integrations" },
+            { type: "output", text: "✓ Evaluation Frameworks" },
+            { type: "output", text: "✓ Production Deployment" }
+          ];
+          break;
+        case "whoami":
+          outputLines = [
+            { type: "output", text: "Abinesh U" },
+            { type: "output", text: "AI Engineer" },
+            { type: "output", text: "Designing intelligent systems that think before they act." }
+          ];
+          break;
+        case "coffee":
+          outputLines = [
+            { type: "output", text: "ERROR" },
+            { type: "output", text: "Coffee module unavailable." },
+            { type: "output", text: "Engineer recharge required." }
+          ];
+          break;
+        case "sudo hire":
+          outputLines = [
+            { type: "output", text: "Permission Granted." },
+            { type: "output", text: "Opening communication channel..." }
+          ];
+          setTimeout(() => {
+            document.getElementById("channels")?.scrollIntoView({ behavior: "smooth" });
+          }, 500);
+          break;
+        case "clear":
+          setHistory([]);
+          setLoading(false);
+          return;
+        case "about":
+          outputLines = [
+            { type: "output", text: "Abinesh U is an AI Engineer and Systems Architect." },
+            { type: "output", text: "Focused on agentic loops, custom context routing, and MLOps." }
+          ];
+          break;
+        case "projects":
+          outputLines = [
+            { type: "output", text: "PRJ-01 : Hermes - Voice Intelligence" },
+            { type: "output", text: "PRJ-02 : Athena - Enterprise Retrieval" },
+            { type: "output", text: "PRJ-03 : Aegis  - Decision Governance" }
+          ];
+          break;
+        case "systems":
+          outputLines = [
+            { type: "output", text: "SYS-01 : Multi-Agent Systems" },
+            { type: "output", text: "SYS-02 : Agent Memory Systems" },
+            { type: "output", text: "SYS-03 : RAG Architectures" },
+            { type: "output", text: "SYS-04 : MCP Architectures" },
+            { type: "output", text: "SYS-05 : AI Evaluation Systems" },
+            { type: "output", text: "SYS-06 : Production AI Patterns" }
+          ];
+          break;
+        case "blog":
+          outputLines = [
+            { type: "output", text: "ART-08 : The Shape of Agentic Systems" },
+            { type: "output", text: "ART-07 : Memory Is the System" },
+            { type: "output", text: "ART-06 : RAG Is a Retrieval Problem" },
+            { type: "output", text: "ART-05 : Evals as Product Engineering" }
+          ];
+          break;
+        case "contact":
+          outputLines = [
+            { type: "output", text: "EMAIL    : abinesh.ai.ml@gmail.com" },
+            { type: "output", text: "LINKEDIN : /in/abineshu" },
+            { type: "output", text: "GITHUB   : @abinesh-u" }
+          ];
+          break;
+        case "availability":
+          outputLines = [
+            { type: "output", text: "AVAILABILITY : ACCEPTING SELECT ADVISORY" }
+          ];
+          break;
+        case "location":
+          outputLines = [
+            { type: "output", text: "BENGALURU, IN" }
+          ];
+          break;
+        case "resume":
+          outputLines = [
+            { type: "output", text: "RESUME LINK" },
+            { type: "output", text: "Request resume via email: abinesh.ai.ml@gmail.com" }
+          ];
+          break;
+        case "github":
+          outputLines = [
+            { type: "output", text: "https://github.com/abinesh-u" }
+          ];
+          break;
+        case "linkedin":
+          outputLines = [
+            { type: "output", text: "https://linkedin.com/in/abineshu" }
+          ];
+          break;
+        case "vision":
+          outputLines = [
+            { type: "output", text: "Designing intelligent systems that think before they act." }
+          ];
+          break;
+        case "fortune":
+          const quotes = [
+            "Simple systems scale farther.",
+            "Every agent deserves good memory.",
+            "Architecture is communication.",
+            "Design for orchestration, not automation."
+          ];
+          const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+          outputLines = [
+            { type: "output", text: `"${randomQuote}"` }
+          ];
+          break;
+        default:
+          outputLines = [
+            { type: "output", text: "Command not found." },
+            { type: "output", text: "Type \"help\" for available commands." }
+          ];
+      }
+
+      // Write lines staggered with a 50ms interval to feel premium & dynamic
+      outputLines.forEach((line, index) => {
+        setTimeout(() => {
+          setHistory((prev) => [...prev, line]);
+          if (index === outputLines.length - 1) {
+            setLoading(false);
+          }
+        }, (index + 1) * 50);
+      });
+    }, 80);
   };
 
-  const handleDownload = () => {
-    const keyBlock = `-----BEGIN PGP PUBLIC KEY BLOCK-----
-Version: OpenPGP v4
-Comment: Cryptographic Identity for Abinesh U
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      executeCommand(inputVal);
+      setInputVal("");
+    } else if (e.key === "Tab") {
+      e.preventDefault();
+      const val = inputVal.trim().toLowerCase();
+      if (!val) return;
+      const matches = commands.filter((c) => c.startsWith(val));
+      if (matches.length === 1) {
+        setInputVal(matches[0]);
+      } else if (matches.length > 1) {
+        setHistory((prev) => [
+          ...prev,
+          { type: "input", text: `agent@abinesh.blog:~$ ${inputVal}` },
+          { type: "output", text: matches.join("    ") }
+        ]);
+      }
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (cmdHistory.length > 0 && historyPointer > 0) {
+        const nextPointer = historyPointer - 1;
+        setHistoryPointer(nextPointer);
+        setInputVal(cmdHistory[nextPointer]);
+      }
+    } else if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (cmdHistory.length > 0 && historyPointer < cmdHistory.length - 1) {
+        const nextPointer = historyPointer + 1;
+        setHistoryPointer(nextPointer);
+        setInputVal(cmdHistory[nextPointer]);
+      } else if (historyPointer === cmdHistory.length - 1) {
+        setHistoryPointer(cmdHistory.length);
+        setInputVal("");
+      }
+    }
+  };
 
-mQINBFT3S5MBEADOm0JpZz3p8N3Z0a...[mock key bytes]...
-=abcd
------END PGP PUBLIC KEY BLOCK-----`;
-    const element = document.createElement("a");
-    const file = new Blob([keyBlock], { type: "text/plain" });
-    element.href = URL.createObjectURL(file);
-    element.download = "abinesh_public_key.asc";
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+  const handleSuggestion = (cmd: string) => {
+    if (loading || !bootComplete) return;
+    executeCommand(cmd);
+  };
+
+  const focusInput = () => {
+    inputRef.current?.focus();
   };
 
   return (
-    <div className="relative border border-hairline/80 bg-background/30 backdrop-blur-[2px] p-6 rounded overflow-hidden h-full flex flex-col justify-between">
-      <div className="absolute inset-0 dot-bg opacity-[0.03] pointer-events-none" />
-      <div className="relative z-10 space-y-6">
-        <div className="flex items-center justify-between pb-3 border-b border-foreground/5">
-          <div className="flex items-center gap-2">
-            <Key className="w-4 h-4 text-foreground/60" />
-            <span className="font-mono text-[10px] font-bold text-foreground/75 tracking-wider">PGP_PUBLIC_KEY</span>
-          </div>
-          <span className="font-mono text-[8px] border border-emerald-500/20 bg-emerald-500/5 px-2 py-0.5 rounded text-emerald-500 uppercase tracking-wider font-bold">
-            ACTIVE
-          </span>
+    <div
+      onClick={focusInput}
+      className="relative border border-hairline/80 bg-background/40 backdrop-blur-[2px] p-4 rounded overflow-hidden h-[340px] flex flex-col justify-between font-mono text-[11px] shadow-sm cursor-text"
+    >
+      {/* Terminal Header */}
+      <div className="flex items-center justify-between pb-2 border-b border-foreground/5 shrink-0 select-none">
+        <div className="flex items-center gap-1.5">
+          <div className="w-1.5 h-1.5 rounded-full bg-foreground/15" />
+          <div className="w-1.5 h-1.5 rounded-full bg-foreground/15" />
+          <div className="w-1.5 h-1.5 rounded-full bg-foreground/15" />
         </div>
-
-        <div className="space-y-2">
-          <div className="flex justify-between font-mono text-[9px] text-foreground/45">
-            <span>KEY_ID</span>
-            <span className="text-foreground/70 font-semibold">0x8B7C9D6E</span>
-          </div>
-          <div className="flex justify-between font-mono text-[9px] text-foreground/45">
-            <span>ALGORITHM</span>
-            <span className="text-foreground/70">Ed25519</span>
-          </div>
-          <div className="flex justify-between font-mono text-[9px] text-foreground/45">
-            <span>CREATION_DATE</span>
-            <span className="text-foreground/70">2026-06-28</span>
-          </div>
-        </div>
-
-        <div className="space-y-2 pt-2">
-          <span className="font-mono text-[9px] text-foreground/45 block">KEY_FINGERPRINT</span>
-          <div className="p-3 bg-secondary/35 rounded border border-foreground/5 font-mono text-[9px] text-foreground/80 break-all leading-relaxed select-all">
-            9F7C A463 D5E2 B8A0 1C4D<br />7F9E 8B7C 9D6E 2A5F 1B3D
-          </div>
-        </div>
+        <span className="text-[9px] text-foreground/45 tracking-wider">agent@abinesh.blog:~</span>
+        <Terminal className="w-3 h-3 text-foreground/40" />
       </div>
 
-      <div className="mt-8 pt-4 border-t border-foreground/5 grid grid-cols-2 gap-3 relative z-10">
-        <button
-          onClick={handleCopy}
-          className="flex items-center justify-center gap-2 px-3 py-2 border border-foreground/10 hover:border-foreground/30 hover:bg-secondary/40 rounded transition-all duration-300 font-mono text-[10px] uppercase tracking-wider text-foreground/75 hover:text-foreground cursor-pointer"
-        >
-          {copied ? (
-            <>
-              <Check className="w-3.5 h-3.5 text-emerald-500" />
-              <span>COPIED</span>
-            </>
+      {/* Terminal Output */}
+      <div
+        ref={containerRef}
+        className="flex-1 overflow-y-auto my-3 space-y-1.5 pr-2 scrollbar-thin scrollbar-thumb-foreground/10"
+      >
+        {history.map((line, idx) => (
+          <div
+            key={idx}
+            className={
+              line.type === "input"
+                ? "text-foreground font-semibold"
+                : line.type === "system"
+                  ? "text-foreground/35"
+                  : "text-foreground/75"
+            }
+          >
+            {line.text}
+          </div>
+        ))}
+        {loading && (
+          <div className="text-foreground/40 animate-pulse">
+            &gt; Executing pipeline...
+          </div>
+        )}
+      </div>
+
+      {/* Dynamic Suggestions Chips */}
+      <div className="shrink-0 pt-2 border-t border-foreground/5 space-y-2">
+        <div className="flex flex-wrap gap-1.5 select-none">
+          {["help", "projects", "architecture", "availability", "resume"].map((cmd) => (
+            <button
+              key={cmd}
+              onClick={() => handleSuggestion(cmd)}
+              disabled={loading || !bootComplete}
+              className="px-2 py-1 border border-foreground/10 hover:border-foreground/25 bg-background/50 hover:bg-secondary/40 rounded text-[9px] text-foreground/60 hover:text-foreground transition-colors uppercase tracking-wider cursor-pointer disabled:opacity-40"
+            >
+              {cmd}
+            </button>
+          ))}
+        </div>
+
+        {/* Input area */}
+        <div className="flex items-center gap-2 pt-1">
+          {bootComplete ? (
+            <span className="text-foreground/50 font-semibold">agent@abinesh.blog:~$</span>
           ) : (
-            <>
-              <Copy className="w-3.5 h-3.5" />
-              <span>COPY</span>
-            </>
+            <span className="text-foreground/30 font-semibold">$</span>
           )}
-        </button>
-        <button
-          onClick={handleDownload}
-          className="flex items-center justify-center gap-2 px-3 py-2 bg-foreground text-background hover:opacity-90 rounded transition-all duration-300 font-mono text-[10px] uppercase tracking-wider cursor-pointer"
-        >
-          <Download className="w-3.5 h-3.5" />
-          <span>DOWNLOAD</span>
-        </button>
+          <div className="relative flex-1 flex items-center">
+            <input
+              ref={inputRef}
+              type="text"
+              value={inputVal}
+              onChange={(e) => setInputVal(e.target.value)}
+              onKeyDown={handleKeyDown}
+              disabled={loading || !bootComplete}
+              placeholder={inputVal ? "" : "Type help..."}
+              className="absolute inset-0 bg-transparent border-none outline-none font-mono text-[11px] w-full text-transparent caret-transparent z-10 selection:bg-foreground/20 selection:text-foreground"
+              aria-label="Terminal input"
+              autoFocus
+            />
+            <div className="flex-1 font-mono text-[11px] text-foreground select-none pointer-events-none flex items-center">
+              <span>{inputVal || (loading || !bootComplete ? "" : "Type help...")}</span>
+              {(!loading && bootComplete) && <span className="inline-block w-1.5 h-3.5 bg-foreground/75 ml-0.5 animate-blink" />}
+            </div>
+          </div>
+          <button
+            onClick={() => {
+              executeCommand(inputVal);
+              setInputVal("");
+            }}
+            disabled={loading || !bootComplete}
+            className="p-1 text-foreground/40 hover:text-foreground transition-colors cursor-pointer disabled:opacity-40"
+            title="Execute command"
+          >
+            <CornerDownLeft className="w-3.5 h-3.5" />
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -338,7 +734,7 @@ function Contact() {
 
 
         {/* COMMUNICATION ARCHITECTURE (INTERACTIVE NETWORK TOPOLOGY) */}
-        <section className="relative mx-auto max-w-7xl px-6 lg:px-10 py-16 border-t hairline bg-background/50">
+        <section id="channels" className="relative mx-auto max-w-7xl px-6 lg:px-10 py-16 border-t hairline bg-background/50">
           <div className="flex items-center gap-4 mb-10">
             <span className="mono-meta text-muted-foreground">06.1 / Communication Topology</span>
             <span className="h-px w-20 bg-foreground/15" />
@@ -526,14 +922,14 @@ function Contact() {
             </div>
           </div>
 
-          {/* R4. Cryptographic Identity & Verification (Right Column) */}
+          {/* R4. Terminal Console Simulator (Right Column) */}
           <div className="col-span-12 lg:col-span-5">
             <div className="flex items-center gap-4 mb-8">
-              <span className="mono-meta text-muted-foreground">06.3 / Secure Verification</span>
+              <span className="mono-meta text-muted-foreground">06.3 / Terminal Console</span>
               <span className="h-px w-20 bg-foreground/15" />
             </div>
 
-            <SecureVerificationWidget />
+            <TerminalConsoleWidget />
           </div>
         </section>
 

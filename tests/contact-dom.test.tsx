@@ -122,33 +122,32 @@ describe("Contact Component - Dynamic DOM & Integration Validation", () => {
   });
 
   // ==========================================
-  // 6. Cryptographic Identity & Secure Verification
+  // 6. Terminal Console Simulator
   // ==========================================
-  test("TC-6.1: Secure verification widget presence", () => {
-    expect(html).toContain("PGP_PUBLIC_KEY");
-    expect(html).toContain("Secure Verification");
+  test("TC-6.1: Terminal console widget presence", () => {
+    expect(html).toContain("Terminal Console");
+    expect(html).toContain("agent@abinesh.blog:~");
   });
 
-  test("TC-6.2: Cryptographic metadata rendering", () => {
-    expect(html).toContain("KEY_ID");
-    expect(html).toContain("0x8B7C9D6E");
-    expect(html).toContain("Ed25519");
-    expect(html).toContain("2026-06-28");
+  test("TC-6.2: Terminal metadata and version details", () => {
+    expect(html).toContain("Initializing Runtime v2.0.6...");
+    expect(html).toContain("System Ready.");
   });
 
-  test("TC-6.3: Fingerprint display correctness", () => {
-    expect(html).toContain("KEY_FINGERPRINT");
-    expect(html).toContain("9F7C A463 D5E2 B8A0 1C4D");
-    expect(html).toContain("7F9E 8B7C 9D6E 2A5F 1B3D");
+  test("TC-6.3: Suggestion command buttons presence", () => {
+    expect(html).toContain("help");
+    expect(html).toContain("projects");
+    expect(html).toContain("architecture");
+    expect(html).toContain("availability");
+    expect(html).toContain("resume");
   });
 
-  test("TC-6.4: Interactive buttons count and text", () => {
-    expect(html).toContain("COPY");
-    expect(html).toContain("DOWNLOAD");
+  test("TC-6.4: Input console prompt character", () => {
+    expect(html).toContain("Type help...");
   });
 
-  test("TC-6.5: Layout stability and style details", () => {
-    expect(html).toContain("relative border border-hairline/80 bg-background/30 backdrop-blur-[2px]");
+  test("TC-6.5: Layout stability and styling details", () => {
+    expect(html).toContain("relative border border-hairline/80 bg-background/40");
   });
 
   // ==========================================
