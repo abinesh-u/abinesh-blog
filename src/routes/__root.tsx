@@ -6,6 +6,7 @@ import {
   useRouter,
   HeadContent,
   Scripts,
+  useLocation,
 } from "@tanstack/react-router";
 import { type ReactNode } from "react";
 
@@ -104,23 +105,6 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap",
       },
     ],
-    scripts: [
-      {
-        type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Person",
-          "@id": `${siteMetadata.url}/#person`,
-          name: siteMetadata.name,
-          url: siteMetadata.url,
-          image: siteMetadata.imageUrl,
-          jobTitle: "AI Engineer",
-          description: siteMetadata.description,
-          sameAs: sameAsUrls,
-          knowsAbout: siteMetadata.knowsAbout,
-        }),
-      },
-    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -144,9 +128,31 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const location = useLocation();
+  const isAboutPage = location.pathname === "/about";
+
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
+      {!isAboutPage && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "@id": `${siteMetadata.url}/#person`,
+              name: siteMetadata.name,
+              url: siteMetadata.url,
+              image: siteMetadata.imageUrl,
+              jobTitle: "AI Engineer",
+              description: siteMetadata.description,
+              sameAs: sameAsUrls,
+              knowsAbout: siteMetadata.knowsAbout,
+            }),
+          }}
+        />
+      )}
     </QueryClientProvider>
   );
 }

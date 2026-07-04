@@ -19,6 +19,7 @@ const schemas = {
       description: siteMetadata.description,
       sameAs: sameAsUrls,
       knowsAbout: siteMetadata.knowsAbout,
+      mainEntityOfPage: { "@id": `${siteMetadata.url}/about/#webpage` },
     },
     {
       "@type": "WebSite",
@@ -35,6 +36,8 @@ const schemas = {
       description: siteMetadata.description,
       isPartOf: { "@id": `${siteMetadata.url}/#website` },
       about: { "@id": `${siteMetadata.url}/#person` },
+      mainEntity: { "@id": `${siteMetadata.url}/#person` },
+      breadcrumb: { "@id": `${siteMetadata.url}/about/#breadcrumb` },
     },
     {
       "@type": "BreadcrumbList",
