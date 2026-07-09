@@ -62,6 +62,33 @@ function addSecurityHeaders(response: Response): Response {
 export default {
   async fetch(request: Request, env: unknown, ctx: unknown) {
     const url = new URL(request.url);
+    const host = request.headers.get("host") || url.host;
+    const isLocalhost =
+      host.includes("localhost") ||
+      host.includes("127.0.0.1") ||
+      host.includes("[::1]") ||
+      host.includes("::");
+
+    if (!isLocalhost) {
+      const canonicalHost = "abinesh.blog";
+      const hasWww = host.startsWith("www.");
+      const isHttp = url.protocol === "http:";
+      const isWrongHost = host !== canonicalHost;
+
+      if (hasWww || isHttp || isWrongHost) {
+        url.protocol = "https:";
+        url.hostname = canonicalHost;
+        url.port = "";
+        return new Response(null, {
+          status: 308,
+          headers: {
+            Location: url.toString(),
+            "Cache-Control": "public, max-age=31536000",
+          },
+        });
+      }
+    }
+
     console.log(`[server.ts] Incoming request: ${request.method} ${url.pathname}${url.search}`);
 
     // Vercel or Nitro routing layer may rewrite root requests to /index.html.
