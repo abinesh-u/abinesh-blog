@@ -1,0 +1,27 @@
+# Abinesh U — AI Engineer
+
+> Portfolio, systems architecture notes, and multi-agent orchestration projects by Abinesh U.
+
+This website serves as the primary portfolio and technical publication platform for Abinesh U, an AI Engineer specializing in agentic systems, multi-agent coordination frameworks, and production AI infrastructure.
+
+## Core Navigation
+
+- [Home](https://abinesh.blog/): Core overview of systems, projects, and latest publications.
+- [About](https://abinesh.blog/about): Detailed professional background, target AI engineering skill stack, and entities.
+- [Systems](https://abinesh.blog/systems): Deep-dives into AI systems architecture, agent runtimes, and memory schemas.
+- [Projects](https://abinesh.blog/projects): Engineering case studies and production code repositories for Hermes, Athena, and Aegis.
+- [Blog](https://abinesh.blog/blog): Long-form documentation-style technical notes on agent execution patterns and tradeoffs.
+- [Contact](https://abinesh.blog/contact): Workstation links, communication protocols, and collaboration channels.
+
+## Key Projects
+
+- [Hermes](https://abinesh.blog/projects#hermes): Research & multi-agent orchestrator utilizing LangGraph, FastAPI, Redis, and Qdrant.
+- [Athena](https://abinesh.blog/projects#athena): Knowledge intelligence platform with FastAPI, Qdrant, PostgreSQL, and OpenAI.
+- [Aegis](https://abinesh.blog/projects#aegis): Evaluation & security framework for testing LLM behavior in production environments.
+
+## Core Systems & Frameworks
+
+- [Multi-Agent Orchestration](https://abinesh.blog/systems#orchestration): Patterns for building autonomous agent teams with state recovery.
+- [Agent Memory Architectures](https://abinesh.blog/systems#memory): Implementing persistent recall layers and semantic vector databases.
+- [Model Context Protocol (MCP)](https://abinesh.blog/systems#mcp): Designing secure tool gateways and execution runtimes.
+- [Production Evals](https://abinesh.blog/systems#evals): Standardizing assertion frameworks and metrics for regression testing.
