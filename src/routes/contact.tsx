@@ -31,6 +31,45 @@ export const Route = createFileRoute("/contact")({
       { name: "twitter:image", content: siteMetadata.imageUrl },
     ],
     links: [{ rel: "canonical", href: `${siteMetadata.url}/contact` }],
+    scripts: [
+      {
+        type: "application/ld+json",
+        children: JSON.stringify({
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "ContactPage",
+              "@id": `${siteMetadata.url}/contact/#webpage`,
+              url: `${siteMetadata.url}/contact`,
+              name: `Contact — ${siteMetadata.name}`,
+              description: `Get in touch with ${siteMetadata.name} — for collaborations, advisory, writing and speaking.`,
+              isPartOf: { "@id": `${siteMetadata.url}/#website` },
+              about: { "@id": `${siteMetadata.url}/#person` },
+              mainEntity: { "@id": `${siteMetadata.url}/#person` },
+              breadcrumb: { "@id": `${siteMetadata.url}/contact/#breadcrumb` },
+            },
+            {
+              "@type": "BreadcrumbList",
+              "@id": `${siteMetadata.url}/contact/#breadcrumb`,
+              itemListElement: [
+                {
+                  "@type": "ListItem",
+                  position: 1,
+                  name: "Home",
+                  item: siteMetadata.url,
+                },
+                {
+                  "@type": "ListItem",
+                  position: 2,
+                  name: "Contact",
+                  item: `${siteMetadata.url}/contact`,
+                },
+              ],
+            },
+          ],
+        }),
+      },
+    ],
   }),
   component: Contact,
 });

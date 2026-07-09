@@ -32,7 +32,7 @@ const schemas = {
       "@type": "ProfilePage",
       "@id": `${siteMetadata.url}/about/#webpage`,
       url: `${siteMetadata.url}/about`,
-      name: siteMetadata.title,
+      name: siteMetadata.name,
       description: siteMetadata.description,
       isPartOf: { "@id": `${siteMetadata.url}/#website` },
       about: { "@id": `${siteMetadata.url}/#person` },
