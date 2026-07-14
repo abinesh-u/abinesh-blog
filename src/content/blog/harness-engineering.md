@@ -1,4 +1,3 @@
-# Harness Engineering: The Missing Reliability Layer in Agentic AI Systems
 
 ## 1. The Reliability Gap
 
