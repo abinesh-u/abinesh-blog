@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { SiteShell, PageHeader } from "@/components/site-shell";
 import { articles } from "@/lib/content";
 import { siteMetadata } from "@/lib/metadata";
@@ -84,9 +84,11 @@ function Blog() {
       <section className="mx-auto max-w-7xl px-6 lg:px-10 pt-16">
         <div className="border-t hairline">
           {articles.map((a, i) => (
-            <article
+            <Link
               key={a.slug}
-              className="group grid grid-cols-12 gap-6 py-10 border-b hairline hover:bg-secondary/45 px-2 -mx-2 transition-all duration-300 ease-expo reveal-trigger cursor-pointer"
+              to="/blog/$slug"
+              params={{ slug: a.slug }}
+              className="group grid grid-cols-12 gap-6 py-10 border-b hairline hover:bg-secondary/45 px-2 -mx-2 transition-all duration-300 ease-expo reveal-trigger cursor-pointer block text-foreground hover:no-underline"
               style={{ transitionDelay: `${i * 100}ms` }}
             >
               <div className="col-span-12 md:col-span-2 space-y-2">
@@ -109,7 +111,7 @@ function Blog() {
               <div className="col-span-12 md:col-span-2 md:text-right mono-caps text-muted-foreground">
                 {a.readTime}
               </div>
-            </article>
+            </Link>
           ))}
         </div>
         <div className="py-10 flex items-center justify-between">
