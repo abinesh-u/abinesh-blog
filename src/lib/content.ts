@@ -159,6 +159,16 @@ export const projects = [
 
 export const articles = [
   {
+    slug: "harness-engineering",
+    index: "ART-09",
+    title: "Harness Engineering: The Missing Reliability Layer in Agentic AI Systems",
+    date: "Jul 2026",
+    readTime: "15 min",
+    category: "Architecture",
+    excerpt:
+      "An Agentic AI Runtime Harness is the execution layer that continuously validates, observes, constrains, and recovers agent behavior throughout its lifecycle to ensure reliable and governed operation.",
+  },
+  {
     slug: "the-shape-of-agentic-systems",
     index: "ART-08",
     title: "The Shape of Agentic Systems",
