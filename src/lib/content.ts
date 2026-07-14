@@ -166,7 +166,7 @@ export const articles = [
     readTime: "15 min",
     category: "Architecture",
     excerpt:
-      "An Agentic AI Runtime Harness is the execution layer that continuously validates, observes, constrains, and recovers agent behavior throughout its lifecycle to ensure reliable and governed operation.",
+      "Harness Engineering introduces a runtime discipline for building reliable, production-grade agentic AI systems through deterministic execution boundaries.",
   },
   {
     slug: "the-shape-of-agentic-systems",
