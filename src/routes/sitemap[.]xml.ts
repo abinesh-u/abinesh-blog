@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
+import { articles } from "../lib/content";
 
-// TODO: replace with your project URL once a project name or custom domain is set.
 const BASE_URL = "https://abinesh.blog";
 
 interface SitemapEntry {
@@ -14,7 +14,7 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
-        const entries: SitemapEntry[] = [
+        const staticEntries: SitemapEntry[] = [
           { path: "/", changefreq: "weekly", priority: "1.0" },
           { path: "/about", changefreq: "monthly", priority: "0.9" },
           { path: "/systems", changefreq: "weekly", priority: "0.9" },
@@ -22,6 +22,15 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/blog", changefreq: "weekly", priority: "0.9" },
           { path: "/contact", changefreq: "yearly", priority: "0.5" },
         ];
+
+        const articleEntries: SitemapEntry[] = articles.map((a) => ({
+          path: `/blog/${a.slug}`,
+          changefreq: "monthly",
+          priority: "0.8",
+        }));
+
+        const entries = [...staticEntries, ...articleEntries];
+
         const urls = entries
           .map(
             (e) =>
