@@ -25,3 +25,11 @@ This website serves as the primary portfolio and technical publication platform 
 - [Agent Memory Architectures](https://abinesh.blog/systems#memory): Implementing persistent recall layers and semantic vector databases.
 - [Model Context Protocol (MCP)](https://abinesh.blog/systems#mcp): Designing secure tool gateways and execution runtimes.
 - [Production Evals](https://abinesh.blog/systems#evals): Standardizing assertion frameworks and metrics for regression testing.
+
+## Published Articles
+
+- [Harness Engineering](https://abinesh.blog/blog/harness-engineering): The missing reliability layer in agentic AI systems — deterministic execution boundaries.
+- [The Shape of Agentic Systems](https://abinesh.blog/blog/the-shape-of-agentic-systems): A taxonomy of loops, hierarchies and graphs that work in production.
+- [Memory Is the System](https://abinesh.blog/blog/memory-is-the-system): Working, episodic, semantic and procedural memory in practice.
+- [RAG Is a Retrieval Problem](https://abinesh.blog/blog/rag-is-a-retrieval-problem): Why most RAG systems plateau and the retrieval-side investments that move quality.
+- [Evals as Product Engineering](https://abinesh.blog/blog/evals-as-product-engineering): Treating evaluation as a first-class system with datasets, judges, traces and regressions.
