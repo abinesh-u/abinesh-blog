@@ -164,6 +164,7 @@ export const articles = [
     date: "Jul 2026",
     readTime: "14 min",
     category: "Architecture",
+    socialImage: "/assets/loop-engineering-hero.png",
     excerpt:
       "Loop engineering designs the triggers, handoffs, evidence, state, budgets and stop rules that make repeated agent work safe and verifiable.",
   },

@@ -1,8 +1,12 @@
+![Loop Engineering — a production AI control loop](/assets/loop-engineering-hero.png)
+
+An agent can report “done” while the test is still red. It can retry the same failed action, consume its budget, and leave behind no durable explanation of what happened. In production, those are loop failures—not merely prompt failures.
+
+The moment agent work repeats—CI failures, support tickets, stale pull requests, or monitoring alerts—you are no longer designing a single response. You are designing a control system.
+
 ## 1. The Unit of Design Is the Loop
 
-Most agent systems are still designed one prompt at a time.
-
-An engineer writes an instruction, starts an agent, reads the result, notices what went wrong, and writes the next instruction. That workflow is useful while exploring a problem. It does not scale when the same class of work arrives every day.
+Most agent systems are still designed one prompt at a time. An engineer writes an instruction, starts an agent, reads the result, notices what went wrong, and writes the next instruction. That workflow is useful while exploring a problem. It does not scale when the same class of work arrives every day.
 
 The next step is not simply a larger prompt or a more autonomous model. It is to design the loop around the model.
 
@@ -46,6 +50,18 @@ Discover → Handoff → Execute → Observe → Verify
 ```
 
 ![The loop engineering core loop](/assets/loop-engineering-core-loop.svg?v=b758ab1)
+
+### 3.0 At a glance: the seven stages
+
+Use this map before the detailed sections:
+
+- **Discover:** identify new, in-scope work and suppress duplicates.
+- **Handoff:** define the goal, evidence, permissions, acceptance criteria, and stop rule.
+- **Execute:** let the agent act inside an explicit boundary.
+- **Observe:** capture tool-produced evidence, not just the agent’s narration.
+- **Verify:** check the resulting artifact independently.
+- **Persist:** record the attempt, evidence, decisions, and unresolved risks.
+- **Decide:** retry only with new evidence; otherwise stop, escalate, or close.
 
 ### 3.1 Discovery: What work should happen next?
 

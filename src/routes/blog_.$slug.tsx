@@ -20,6 +20,9 @@ export const Route = createFileRoute("/blog_/$slug")({
   head: ({ loaderData }) => {
     const article = articles.find((a) => a.slug === loaderData.slug);
     if (!article) return {};
+    const socialImage = article.socialImage
+      ? `${siteMetadata.url}${article.socialImage}`
+      : siteMetadata.imageUrl;
     return {
       meta: [
         { title: `${article.title} — Abinesh U` },
@@ -27,10 +30,14 @@ export const Route = createFileRoute("/blog_/$slug")({
         { property: "og:title", content: article.title },
         { property: "og:description", content: article.excerpt },
         { property: "og:url", content: `${siteMetadata.url}/blog/${article.slug}` },
-        { property: "og:image", content: siteMetadata.imageUrl },
+        { property: "og:type", content: "article" },
+        { property: "og:image", content: socialImage },
+        { property: "og:image:alt", content: `${article.title} hero graphic` },
         { name: "twitter:card", content: "summary_large_image" },
         { name: "twitter:title", content: article.title },
         { name: "twitter:description", content: article.excerpt },
+        { name: "twitter:image", content: socialImage },
+        { name: "twitter:image:alt", content: `${article.title} hero graphic` },
       ],
       links: [{ rel: "canonical", href: `${siteMetadata.url}/blog/${article.slug}` }],
     };
