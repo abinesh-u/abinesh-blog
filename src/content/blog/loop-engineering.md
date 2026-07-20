@@ -45,7 +45,7 @@ Discover → Handoff → Execute → Observe → Verify
     └──── Persist → Retry / Escalate / Stop
 ```
 
-![The loop engineering core loop](/assets/loop-engineering-core-loop.svg)
+![The loop engineering core loop](/assets/loop-engineering-core-loop.svg?v=b758ab1)
 
 ### 3.1 Discovery: What work should happen next?
 
