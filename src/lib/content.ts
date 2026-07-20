@@ -156,8 +156,17 @@ export const projects = [
   },
 ];
 
-
 export const articles = [
+  {
+    slug: "loop-engineering",
+    index: "ART-10",
+    title: "Loop Engineering: Designing Agent Loops That Converge",
+    date: "Jul 2026",
+    readTime: "14 min",
+    category: "Architecture",
+    excerpt:
+      "Loop engineering designs the triggers, handoffs, evidence, state, budgets and stop rules that make repeated agent work safe and verifiable.",
+  },
   {
     slug: "harness-engineering",
     index: "ART-09",

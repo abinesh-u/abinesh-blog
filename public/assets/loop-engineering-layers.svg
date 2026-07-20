@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 650" role="img" aria-labelledby="title desc">
+  <title id="title">The layers around an agent loop</title>
+  <desc id="desc">Four engineering layers shown as stacked bands: prompt, context, harness, and loop. The loop is the outer layer that schedules repeated work and records verification and terminal states.</desc>
+  <rect width="1200" height="650" rx="28" fill="#f8fafc"/>
+  <text x="72" y="78" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="28" font-weight="700" fill="#101828">Four layers of agent work</text>
+  <text x="72" y="110" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="16" fill="#667085">Loop engineering connects the single run to the repeated operating process.</text>
+
+  <g font-family="Inter, ui-sans-serif, system-ui, sans-serif">
+    <rect x="72" y="154" width="1056" height="92" rx="18" fill="#101828"/>
+    <rect x="72" y="264" width="1056" height="92" rx="18" fill="#1d2939"/>
+    <rect x="72" y="374" width="1056" height="92" rx="18" fill="#344054"/>
+    <rect x="72" y="484" width="1056" height="92" rx="18" fill="#ffffff" stroke="#d0d5dd"/>
+
+    <text x="104" y="184" font-size="12" font-weight="700" letter-spacing="2" fill="#98a2b3">04 / OUTER SYSTEM</text>
+    <text x="104" y="222" font-size="26" font-weight="700" fill="#ffffff">Loop</text>
+    <text x="400" y="211" font-size="16" fill="#d0d5dd">trigger · state · verification · budget · stop</text>
+
+    <text x="104" y="294" font-size="12" font-weight="700" letter-spacing="2" fill="#d0d5dd">03 / ONE RUN</text>
+    <text x="104" y="332" font-size="26" font-weight="700" fill="#ffffff">Harness</text>
+    <text x="400" y="321" font-size="16" fill="#eaecf0">tools · permissions · recovery · guardrails</text>
+
+    <text x="104" y="404" font-size="12" font-weight="700" letter-spacing="2" fill="#d0d5dd">02 / WINDOW</text>
+    <text x="104" y="442" font-size="26" font-weight="700" fill="#ffffff">Context</text>
+    <text x="400" y="431" font-size="16" fill="#eaecf0">files · facts · constraints · memory</text>
+
+    <text x="104" y="514" font-size="12" font-weight="700" letter-spacing="2" fill="#667085">01 / TURN</text>
+    <text x="104" y="552" font-size="26" font-weight="700" fill="#101828">Prompt</text>
+    <text x="400" y="541" font-size="16" fill="#667085">the instruction for this action</text>
+  </g>
+
+  <path d="M1010 246V264M1010 356V374M1010 466V484" stroke="#98a2b3" stroke-width="2" stroke-dasharray="4 6"/>
+  <text x="72" y="616" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="16" font-weight="600" fill="#344054">A better prompt improves one turn. A better loop improves the next decision.</text>
+</svg>

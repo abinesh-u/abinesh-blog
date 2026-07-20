@@ -28,6 +28,7 @@ This website serves as the primary portfolio and technical publication platform 
 
 ## Published Articles
 
+- [Loop Engineering](https://abinesh.blog/blog/loop-engineering): Designing repeatable agent workflows with bounded handoffs, evidence, state, verification, and terminal states.
 - [Harness Engineering](https://abinesh.blog/blog/harness-engineering): The missing reliability layer in agentic AI systems — deterministic execution boundaries.
 - [The Shape of Agentic Systems](https://abinesh.blog/blog/the-shape-of-agentic-systems): A taxonomy of loops, hierarchies and graphs that work in production.
 - [Memory Is the System](https://abinesh.blog/blog/memory-is-the-system): Working, episodic, semantic and procedural memory in practice.
