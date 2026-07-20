@@ -1,5 +1,3 @@
-# Loop Engineering: Designing Agent Loops That Converge
-
 ## 1. The Unit of Design Is the Loop
 
 Most agent systems are still designed one prompt at a time.
