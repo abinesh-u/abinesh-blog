@@ -21,5 +21,5 @@
   </g>
   <circle cx="600" cy="372" r="130" fill="#101828"/><circle cx="600" cy="372" r="105" fill="none" stroke="#475467" stroke-width="1" stroke-dasharray="4 8"/>
   <g text-anchor="middle" font-family="Inter, ui-sans-serif, system-ui, sans-serif" fill="#fff"><text x="600" y="348" font-size="13" font-weight="700" letter-spacing="2" fill="#98a2b3">THE TARGET</text><text x="600" y="382" font-size="28" font-weight="700">Verified</text><text x="600" y="416" font-size="28" font-weight="700">outcome</text></g>
-  <rect x="375" y="520" width="450" height="60" rx="30" fill="#fff" stroke="#d0d5dd"/><text x="600" y="557" text-anchor="middle" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="15" font-weight="600" fill="#344054">Retry only when new evidence changes the next move</text>
+  <rect x="330" y="510" width="540" height="94" rx="22" fill="#101828"/><text x="600" y="548" text-anchor="middle" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="20" font-weight="700" fill="#fff">Retry only when new evidence</text><text x="600" y="580" text-anchor="middle" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="20" font-weight="700" fill="#fff">changes the next move</text>
 </svg>
