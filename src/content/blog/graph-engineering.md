@@ -151,7 +151,6 @@ Intake → Triage → Investigate → Implement ⇄ Test / repair → Independen
                                                                     └── risk or conflict → human governor
 ```
 
-![A governed software-delivery graph with a local repair loop, evidence return path, and human escalation gate](/assets/graph-engineering-delivery-graph.png)
 
 The implementation loop is intentionally local. It can modify code, run sandboxed tests, read resulting failures, and make a bounded repair attempt. It cannot silently lower acceptance criteria, approve its own output, or deploy to production.
 
@@ -219,10 +218,3 @@ Graph engineering adds the missing outer structure: how several bounded work uni
 
 The name may change. The underlying requirement will not. Once a system contains more than one actor, reliability depends less on the intelligence of any individual node and more on the contracts that govern their relationships.
 
-### Further reading
-
-- [3 Years of Graph Engineering with LangGraph — LangChain](https://www.langchain.com/blog/3-years-of-graph-engineering-with-langgraph)
-- [Graph engineering vs. loop engineering — AI Coding Club](https://aicoding.club/blog/loop-engineering-vs-graph-engineering/)
-- [Graph Engineering for AI Agents — Eigent](https://www.eigent.ai/blog/graph-engineering-ai-agents)
-- [RDF 1.2 Concepts and Abstract Data Model — W3C](https://www.w3.org/TR/rdf12-concepts/)
-- [Graph data modeling — Neo4j](https://neo4j.com/docs/getting-started/data-modeling/)
