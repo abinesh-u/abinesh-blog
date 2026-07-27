@@ -4,7 +4,7 @@ import { articles } from "@/lib/content";
 import { siteMetadata } from "@/lib/metadata";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 
 // Load all markdown files as raw strings at build-time using Vite's import.meta.glob
 const postModules = import.meta.glob<string>("../content/blog/*.md", {
@@ -68,6 +68,7 @@ function BlogPost() {
   }, [markdownContent]);
 
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -75,30 +76,28 @@ function BlogPost() {
       const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       const scroll = windowHeight > 0 ? (totalScroll / windowHeight) * 100 : 0;
       setScrollProgress(scroll);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
-  useEffect(() => {
-    if (headings.length === 0) return;
-    
-    const headingElements = headings.map((h) => document.getElementById(h.id)).filter(Boolean) as HTMLElement[];
-    
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter((e) => e.isIntersecting);
-        if (visible.length > 0) {
-          setActiveId(visible[0].target.id);
+      // Show TOC sidebar only after scrolling past the hero header (300px)
+      setIsSidebarVisible(window.scrollY > 300);
+
+      // Deterministically find the heading closest to the top of the viewport
+      const headingElements = headings.map((h) => document.getElementById(h.id)).filter(Boolean) as HTMLElement[];
+      const scrollPosition = window.scrollY + 120; // offset for sticky header
+
+      let currentActiveId = headings[0]?.id || null;
+      for (const el of headingElements) {
+        if (el.offsetTop <= scrollPosition) {
+          currentActiveId = el.id;
+        } else {
+          break;
         }
-      },
-      { rootMargin: "-80px 0px -60% 0px", threshold: 0.1 }
-    );
-
-    headingElements.forEach((el) => observer.observe(el));
-    return () => {
-      headingElements.forEach((el) => observer.unobserve(el));
+      }
+      setActiveId(currentActiveId);
     };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // run once on mount
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [headings]);
 
   if (!article) {
@@ -123,7 +122,13 @@ function BlogPost() {
       />
       {/* Sticky Stepper Table of Contents */}
       {headings.length > 0 && (
-        <nav className="fixed left-6 xl:left-10 top-32 z-40 hidden xl:block max-h-[calc(100vh-12rem)] w-48 overflow-y-auto scrollbar-none select-none">
+        <nav 
+          className={`fixed left-6 xl:left-10 top-32 z-40 hidden xl:block max-h-[calc(100vh-12rem)] w-48 overflow-y-auto scrollbar-none select-none transition-all duration-500 transform ${
+            isSidebarVisible 
+              ? "opacity-100 translate-x-0 pointer-events-auto" 
+              : "opacity-0 -translate-x-4 pointer-events-none"
+          }`}
+        >
           <div className="flex flex-col gap-0.5">
             <div className="flex items-center gap-2 mb-4 px-3">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-muted-foreground"><path d="M3 12h.01M3 18h.01M3 6h.01M8 12h13M8 18h13M8 6h13"/></svg>
