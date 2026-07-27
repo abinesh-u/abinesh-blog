@@ -4,7 +4,7 @@ import { articles } from "@/lib/content";
 import { siteMetadata } from "@/lib/metadata";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 
 // Load all markdown files as raw strings at build-time using Vite's import.meta.glob
 const postModules = import.meta.glob<string>("../content/blog/*.md", {
@@ -51,6 +51,7 @@ function BlogPost() {
 
   const [zoomedImg, setZoomedImg] = useState<string | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+  const contentRef = useRef<HTMLDivElement>(null);
   // Match the file key in the global imports map
   const fileKey = `../content/blog/${slug}.md`;
   const markdownContent = postModules[fileKey] || "";
@@ -78,7 +79,10 @@ function BlogPost() {
       setScrollProgress(scroll);
 
       // Show TOC sidebar only after scrolling past the hero header (300px)
-      setIsSidebarVisible(window.scrollY > 300);
+      // and hide it once the user scrolls past the end of the article body
+      const articleEl = contentRef.current;
+      const articleEnd = articleEl ? articleEl.offsetTop + articleEl.offsetHeight - 60 : Infinity;
+      setIsSidebarVisible(window.scrollY > 300 && window.scrollY < articleEnd);
 
       // Deterministically find the heading closest to the top of the viewport
       const headingElements = headings.map((h) => document.getElementById(h.id)).filter(Boolean) as HTMLElement[];
@@ -199,7 +203,7 @@ function BlogPost() {
         </header>
 
         {/* Content Area */}
-        <div className="max-w-none">
+        <div ref={contentRef} className="max-w-none">
           {markdownContent ? (
             <ReactMarkdown
               remarkPlugins={[remarkGfm]}
