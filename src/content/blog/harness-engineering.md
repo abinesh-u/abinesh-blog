@@ -68,7 +68,7 @@ To operationalize these concepts, we construct a framework-agnostic reference ar
 
 This architecture operates as an interceptor middleware pattern. It sits directly between the Orchestration Engine, the LLM Reasoning Core, and the external Tool Registry.
 
-![Agentic AI Runtime Harness Architecture](/assets/AI-harness.png)
+![Agentic AI Runtime Harness Architecture](/assets/blog/harness-engineering/AI-harness.png)
 
 In this architecture, requests flow through each layer sequentially. Every layer serves a distinct purpose: it either enriches context, validates payloads, constrains behavior, executes code, or observes the system state. Together, these layers transform an unpredictable LLM into a dependable, production-grade system.
 
@@ -135,7 +135,7 @@ A dependable runtime harness implements these principles through several modular
 | Execution Sandbox | Host Compromise | Provides secure, isolated code execution |
 | Circuit Breaker | Infinite Loops | Controls infrastructure costs and halts runaway tasks |
 
-![Runtime Harness Execution Flow](/assets/execution-flow.svg)
+![Runtime Harness Execution Flow](/assets/blog/harness-engineering/execution-flow.svg)
 
 ### Context Manager
 The Context Manager is responsible for actively pruning and structuring the [working memory](/blog/memory-is-the-system) supplied to the reasoning engine. In production, this often involves sliding window algorithms, token-aware truncation, and hybrid search to inject high-signal knowledge. By keeping the context window clean, it significantly reduces inference latency while improving reasoning accuracy.

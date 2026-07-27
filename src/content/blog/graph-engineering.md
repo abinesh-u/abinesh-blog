@@ -1,4 +1,4 @@
-![A graph engineering control plane for agent work](/assets/graph-engineering-hero-v2.png)
+![A graph engineering control plane for agent work](/assets/blog/graph-engineering/graph-engineering-hero-v2.png)
 
 One agent can fix a bounded problem. Several agents can still leave a human doing the most consequential work: deciding what starts next, which output is trustworthy, what state crosses a handoff, and when a failure should stop rather than retry.
 
@@ -78,7 +78,7 @@ The first is a diagram. The second is a control boundary.
 
 This is familiar terrain in distributed systems: interfaces, ownership, retries, and failure semantics determine whether components compose. Agent systems need the same discipline, with one extra complication: some nodes are probabilistic and will confidently misread an ambiguous handoff.
 
-![An edge contract carries evidence, authority, routing, and budget between work nodes](/assets/graph-engineering-edge-contract.png)
+![An edge contract carries evidence, authority, routing, and budget between work nodes](/assets/blog/graph-engineering/graph-engineering-edge-contract.png)
 
 ## 4. The Five Objects to Design
 
@@ -193,7 +193,7 @@ Workflow graph:   What may happen next, under whose authority?
 
 This distinction keeps architecture conversations honest. It prevents teams from buying a graph database when they need a workflow engine—or building a complex agent workflow when their actual gap is data provenance.
 
-![A single feedback loop is a graph; a governed topology adds branching, verification, and approval](/assets/graph-engineering-from-loop-to-graph.png)
+![A single feedback loop is a graph; a governed topology adds branching, verification, and approval](/assets/blog/graph-engineering/graph-engineering-from-loop-to-graph.png)
 
 ## 8. Start With One Loop, Then Earn the Graph
 

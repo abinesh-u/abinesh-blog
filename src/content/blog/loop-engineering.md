@@ -1,4 +1,4 @@
-![Loop Engineering — a production AI control loop](/assets/loop-engineering-hero.png)
+![Loop Engineering — a production AI control loop](/assets/blog/loop-engineering/loop-engineering-hero.png)
 
 An agent can report “done” while the test is still red. It can retry the same failed action, consume its budget, and leave behind no durable explanation of what happened. In production, those are loop failures—not merely prompt failures.
 
@@ -35,7 +35,7 @@ Loop engineering operates one level above that cycle. It decides when the agent 
 
 The layers are complementary. A well-designed loop still needs good prompts and useful context. A harness still needs to constrain each run. Loop engineering adds the outer control system that makes the work repeatable.
 
-![Prompt, context, harness, and loop engineering layers](/assets/loop-engineering-layers.svg)
+![Prompt, context, harness, and loop engineering layers](/assets/blog/loop-engineering/loop-engineering-layers.svg)
 
 The distinction matters because more turns do not automatically mean more progress. An agent can repeat the same action, accumulate irrelevant context, consume its budget, and still report success without producing a verified result.
 
@@ -49,7 +49,7 @@ Discover → Handoff → Execute → Observe → Verify
     └──── Persist → Retry / Escalate / Stop
 ```
 
-![The loop engineering core loop](/assets/loop-engineering-core-loop.svg?v=b758ab1)
+![The loop engineering core loop](/assets/blog/loop-engineering/loop-engineering-core-loop.svg?v=b758ab1)
 
 ### 3.0 At a glance: the seven stages
 
@@ -173,7 +173,7 @@ An agent receives a failing CI notification and is told to fix it. It searches b
 
 The failure is not necessarily the model’s lack of intelligence. The loop has no stable work identity, no change boundary, no independent completion state, and no proof that the final artifact was tested.
 
-![An engineered CI failure loop](/assets/loop-engineering-ci-loop.svg)
+![An engineered CI failure loop](/assets/blog/loop-engineering/loop-engineering-ci-loop.svg)
 
 ### The engineered version
 

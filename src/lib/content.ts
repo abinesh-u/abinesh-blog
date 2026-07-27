@@ -164,7 +164,7 @@ export const articles = [
     date: "Jul 2026",
     readTime: "14 min",
     category: "Architecture",
-    socialImage: "/assets/graph-engineering-hero-v2.png",
+    socialImage: "/assets/blog/graph-engineering/graph-engineering-hero-v2.png",
     excerpt:
       "Graph engineering makes the handoffs, state, authority and verification rules between agent loops explicit—so multi-agent work can coordinate without drifting.",
   },
@@ -175,7 +175,7 @@ export const articles = [
     date: "Jul 2026",
     readTime: "14 min",
     category: "Architecture",
-    socialImage: "/assets/loop-engineering-hero.png",
+    socialImage: "/assets/blog/loop-engineering/loop-engineering-hero.png",
     excerpt:
       "Loop engineering designs the triggers, handoffs, evidence, state, budgets and stop rules that make repeated agent work safe and verifiable.",
   },
