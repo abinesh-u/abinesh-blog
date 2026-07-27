@@ -158,6 +158,17 @@ export const projects = [
 
 export const articles = [
   {
+    slug: "graph-engineering",
+    index: "ART-11",
+    title: "Graph Engineering: Designing Agent Systems That Coordinate",
+    date: "Jul 2026",
+    readTime: "14 min",
+    category: "Architecture",
+    socialImage: "/assets/graph-engineering-hero-v2.png",
+    excerpt:
+      "Graph engineering makes the handoffs, state, authority and verification rules between agent loops explicit—so multi-agent work can coordinate without drifting.",
+  },
+  {
     slug: "loop-engineering",
     index: "ART-10",
     title: "Loop Engineering: Designing Agent Loops That Converge",
