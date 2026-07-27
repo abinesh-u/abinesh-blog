@@ -4,7 +4,7 @@ import { articles } from "@/lib/content";
 import { siteMetadata } from "@/lib/metadata";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 // Load all markdown files as raw strings at build-time using Vite's import.meta.glob
 const postModules = import.meta.glob<string>("../content/blog/*.md", {
