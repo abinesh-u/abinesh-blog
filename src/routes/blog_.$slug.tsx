@@ -4,7 +4,7 @@ import { articles } from "@/lib/content";
 import { siteMetadata } from "@/lib/metadata";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 
 // Load all markdown files as raw strings at build-time using Vite's import.meta.glob
 const postModules = import.meta.glob<string>("../content/blog/*.md", {
@@ -51,6 +51,23 @@ function BlogPost() {
 
   const [zoomedImg, setZoomedImg] = useState<string | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
+  // Match the file key in the global imports map
+  const fileKey = `../content/blog/${slug}.md`;
+  const markdownContent = postModules[fileKey] || "";
+
+  const headings = useMemo(() => {
+    const h2Reg = /^##\s+(.+)$/gm;
+    const matches = [...markdownContent.matchAll(h2Reg)];
+    return matches.map((m) => {
+      let text = m[1].trim();
+      // Strip markdown links if any exist in heading
+      text = text.replace(/\[([^\]]+)\]\([^)]+\)/g, "$1");
+      const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+      return { text, id };
+    });
+  }, [markdownContent]);
+
+  const [activeId, setActiveId] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,9 +80,26 @@ function BlogPost() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Match the file key in the global imports map
-  const fileKey = `../content/blog/${slug}.md`;
-  const markdownContent = postModules[fileKey] || "";
+  useEffect(() => {
+    if (headings.length === 0) return;
+    
+    const headingElements = headings.map((h) => document.getElementById(h.id)).filter(Boolean) as HTMLElement[];
+    
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((e) => e.isIntersecting);
+        if (visible.length > 0) {
+          setActiveId(visible[0].target.id);
+        }
+      },
+      { rootMargin: "-80px 0px -60% 0px", threshold: 0.1 }
+    );
+
+    headingElements.forEach((el) => observer.observe(el));
+    return () => {
+      headingElements.forEach((el) => observer.unobserve(el));
+    };
+  }, [headings]);
 
   if (!article) {
     return (
@@ -87,6 +121,45 @@ function BlogPost() {
         className="fixed top-0 left-0 h-1 bg-foreground z-50 transition-all duration-150 ease-out"
         style={{ width: `${scrollProgress}%` }}
       />
+      {/* Sticky Stepper Table of Contents */}
+      {headings.length > 0 && (
+        <nav className="fixed left-6 xl:left-10 top-32 z-40 hidden xl:block max-h-[calc(100vh-12rem)] w-48 overflow-y-auto scrollbar-none select-none">
+          <div className="flex flex-col gap-0.5">
+            <div className="flex items-center gap-2 mb-4 px-3">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-muted-foreground"><path d="M3 12h.01M3 18h.01M3 6h.01M8 12h13M8 18h13M8 6h13"/></svg>
+              <span className="text-[10px] font-mono uppercase tracking-[0.2em] text-muted-foreground">Sections</span>
+            </div>
+            <div className="relative pl-4 border-l border-foreground/[0.06] flex flex-col gap-3">
+              {headings.map((h, index) => {
+                const isActive = activeId === h.id;
+                return (
+                  <a
+                    key={h.id}
+                    href={`#${h.id}`}
+                    className="group relative flex items-start gap-2.5 text-left transition-all duration-200"
+                  >
+                    <div 
+                      className={`absolute -left-[17px] top-1 w-[2px] h-3.5 rounded-full shrink-0 transition-all duration-300 ${
+                        isActive ? "bg-foreground scale-y-100" : "bg-transparent group-hover:bg-foreground/15 scale-y-75"
+                      }`}
+                    />
+                    <span className={`text-[10px] font-mono shrink-0 transition-colors duration-200 ${
+                      isActive ? "text-foreground font-semibold" : "text-muted-foreground/50 group-hover:text-muted-foreground"
+                    }`}>
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className={`text-[11px] font-mono transition-colors duration-200 leading-tight ${
+                      isActive ? "text-foreground font-medium" : "text-muted-foreground/60 group-hover:text-muted-foreground"
+                    }`}>
+                      {h.text}
+                    </span>
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </nav>
+      )}
       <article className="mx-auto max-w-4xl px-6 lg:px-10 pt-16 pb-10">
         {/* Back Link */}
         <div className="mb-12">
