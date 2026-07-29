@@ -158,6 +158,17 @@ export const projects = [
 
 export const articles = [
   {
+    slug: "agent-observability",
+    index: "ART-12",
+    title: "Agent Observability: Designing Systems You Can Debug, Trust, and Improve",
+    date: "Jul 2026",
+    readTime: "13 min",
+    category: "Production",
+    socialImage: "/assets/blog/agent-observability/agent-observability-hero.svg",
+    excerpt:
+      "Agent observability creates an evidence trail for what an agent saw, decided, changed and proved—so production behavior can be diagnosed, governed and improved.",
+  },
+  {
     slug: "graph-engineering",
     index: "ART-11",
     title: "Graph Engineering: Designing Agent Systems That Coordinate",
