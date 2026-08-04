@@ -158,6 +158,17 @@ export const projects = [
 
 export const articles = [
   {
+    slug: "state-engineering",
+    index: "ART-13",
+    title: "State Engineering: Designing Agent State Systems That Don't Pollute",
+    date: "Aug 2026",
+    readTime: "14 min",
+    category: "Architecture",
+    socialImage: "/assets/blog/state-engineering/state-engineering-hero.svg",
+    excerpt:
+      "State engineering designs the typed schemas, reducers, scoping rules, and immutable ledgers that allow multi-agent systems to coordinate without state pollution or context bloat.",
+  },
+  {
     slug: "agent-observability",
     index: "ART-12",
     title: "Agent Observability: Designing Systems You Can Debug, Trust, and Improve",
