@@ -1,3 +1,5 @@
+![State Engineering — a 5-object typed schema and state reduction architecture](/assets/blog/state-engineering/state-engineering-hero.svg)
+
 One agent can fix a single function. A swarm of agents can overwrite each other's memory, drag megabytes of irrelevant conversation across nodes, and report success on a broken build.
 
 That is the state gap.

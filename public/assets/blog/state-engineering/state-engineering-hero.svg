@@ -1,0 +1,66 @@
+<svg width="1600" height="920" viewBox="0 0 1600 920" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1600" height="920" fill="#F7F7F5"/>
+  <rect x="70" y="62" width="1460" height="796" rx="24" stroke="#1E1E1E" stroke-width="2"/>
+  
+  <!-- Header -->
+  <text x="122" y="130" fill="#1E1E1E" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" letter-spacing="3">STATE ENGINEERING / THE 5-OBJECT SCHEMA</text>
+  <text x="122" y="172" fill="#5B5B5B" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="17">Differentiating ephemeral conversation context from typed, reduced operational state.</text>
+
+  <!-- Left Container: Naive Memory (Bad) -->
+  <rect x="122" y="220" width="600" height="580" rx="16" fill="#FFF4F4" stroke="#D32F2F" stroke-width="2" stroke-dasharray="6 6"/>
+  <text x="154" y="265" fill="#D32F2F" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">NAIVE AGENT MEMORY (UNCONSTRAINED)</text>
+  <text x="154" y="295" fill="#5B5B5B" font-family="Arial, sans-serif" font-size="16">Raw message list drag across nodes causing context bloat &amp; drift.</text>
+
+  <rect x="154" y="325" width="536" height="60" rx="8" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="1.5"/>
+  <text x="174" y="360" fill="#757575" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">[UserMessage] "Migrate auth service from OAuth1 to OAuth2..."</text>
+
+  <rect x="154" y="405" width="536" height="60" rx="8" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="1.5"/>
+  <text x="174" y="440" fill="#757575" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">[AssistantSpeculation] "Maybe we should modify database.py..."</text>
+
+  <rect x="154" y="485" width="536" height="60" rx="8" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="1.5"/>
+  <text x="174" y="520" fill="#D32F2F" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">[ToolError] "SyntaxError in migration.py line 42..."</text>
+
+  <rect x="154" y="565" width="536" height="60" rx="8" fill="#FFFFFF" stroke="#E0E0E0" stroke-width="1.5"/>
+  <text x="174" y="600" fill="#757575" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">[AssistantRetry] "Retrying same prompt with full history..."</text>
+
+  <rect x="154" y="645" width="536" height="120" rx="8" fill="#FFEAEA" stroke="#D32F2F" stroke-width="1.5"/>
+  <text x="174" y="680" fill="#D32F2F" font-family="Arial, sans-serif" font-size="18" font-weight="700">❌ Production Symptoms:</text>
+  <text x="174" y="710" fill="#5B5B5B" font-family="Arial, sans-serif" font-size="15">• Unverified guesses leak to downstream nodes</text>
+  <text x="174" y="735" fill="#5B5B5B" font-family="Arial, sans-serif" font-size="15">• Quadratic token cost expansion &amp; attention decay</text>
+
+  <!-- Middle Arrow -->
+  <path d="M742 510H858" stroke="#1E1E1E" stroke-width="3" marker-end="url(#arrow)"/>
+
+  <!-- Right Container: Engineered State Schema (Good) -->
+  <rect x="878" y="220" width="600" height="580" rx="16" fill="#E8E8E4" stroke="#1E1E1E" stroke-width="2"/>
+  <text x="910" y="265" fill="#1E1E1E" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="2">ENGINEERED STATE SCHEMA (TYPED &amp; REDUCED)</text>
+  <text x="910" y="295" fill="#5B5B5B" font-family="Arial, sans-serif" font-size="16">5-Object structured schema with atomic mutability rules.</text>
+
+  <!-- 5 State Objects -->
+  <rect x="910" y="325" width="536" height="75" rx="10" fill="#1E1E1E"/>
+  <text x="930" y="357" fill="#F7F7F5" font-family="Arial, sans-serif" font-size="18" font-weight="700">1. FACTS (Tool-Verified)</text>
+  <text x="930" y="382" fill="#C9C9C3" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">test_result: PASS | auth_version: 2.0 | env: sandbox</text>
+
+  <rect x="910" y="415" width="536" height="75" rx="10" fill="#FFFFFF" stroke="#1E1E1E" stroke-width="1.5"/>
+  <text x="930" y="447" fill="#1E1E1E" font-family="Arial, sans-serif" font-size="18" font-weight="700">2. PROPOSALS (Pending Model Diffs)</text>
+  <text x="930" y="472" fill="#5B5B5B" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">proposed_patch: auth_v2.patch (unverified)</text>
+
+  <rect x="910" y="505" width="536" height="75" rx="10" fill="#FFF6D8" stroke="#1E1E1E" stroke-width="1.5"/>
+  <text x="930" y="537" fill="#1E1E1E" font-family="Arial, sans-serif" font-size="18" font-weight="700">3. DECISIONS (Governor Signed)</text>
+  <text x="930" y="562" fill="#5B5B5B" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">target_node: DEPLOY | signed_by: SecurityGovernor</text>
+
+  <rect x="910" y="595" width="536" height="75" rx="10" fill="#FFFFFF" stroke="#1E1E1E" stroke-width="1.5"/>
+  <text x="930" y="627" fill="#1E1E1E" font-family="Arial, sans-serif" font-size="18" font-weight="700">4. ARTIFACTS (Off-Graph URIs)</text>
+  <text x="930" y="652" fill="#5B5B5B" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">evidence_uri: s3://evidence/case_491a/log.json</text>
+
+  <rect x="910" y="685" width="536" height="95" rx="10" fill="#E8E8E4" stroke="#1E1E1E" stroke-width="1.5"/>
+  <text x="930" y="717" fill="#1E1E1E" font-family="Arial, sans-serif" font-size="18" font-weight="700">5. BUDGETS (Execution Guards)</text>
+  <text x="930" y="742" fill="#5B5B5B" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">max_retries: 3 | remaining: 2 | token_spend: $0.14</text>
+  <text x="930" y="763" fill="#5B5B5B" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">concurrency_lock: ACTIVE_MUTATION_LOCK</text>
+
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1E1E1E"/>
+    </marker>
+  </defs>
+</svg>
