@@ -160,7 +160,7 @@ export const articles = [
   {
     slug: "state-engineering",
     index: "ART-13",
-    title: "State Engineering: Designing Typed State, Reducers, and Checkpoints for Agents",
+    title: "State Engineering: Designing Agent State Systems That Don't Pollute",
     date: "Aug 2026",
     readTime: "14 min",
     category: "Architecture",
